@@ -1,0 +1,116 @@
+﻿@page "/enrollments"
+@inject NavigationManager NavigationManager
+@inject IEnrollmentS Enrollments
+@inject ISnackbar Snackbar
+@inject HttpClient httpClient;
+
+
+<MudTable Items="@Elements" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<Enrollment,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Periodic Elements</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>Item No#</MudTh>
+        <MudTh>Registration No#</MudTh>
+        <MudTh>Student No#</MudTh>
+        <MudTh>Last Name</MudTh>
+        <MudTh>First Name</MudTh>
+        <MudTh>Middle Name</MudTh>
+        <MudTh>Department</MudTh>
+        <MudTh>Offer No#</MudTh>
+        <MudTh>Course No#</MudTh>
+        <MudTh>Course Description</MudTh>
+        <MudTh>Teacher ID</MudTh>
+        <MudTh>Section ID</MudTh>
+        <MudTh>Time ID</MudTh>
+        <MudTh>Room ID</MudTh>
+        <MudTh>Days</MudTh>
+        <MudTh>Units</MudTh>
+        <MudTh>Created By</MudTh>
+        <MudTh>Created On</MudTh>
+         <MudTh>Action</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Item No.">@context.ItemNo</MudTd>
+        <MudTd DataLabel="Reg No.">@context.RegNo</MudTd>
+        <MudTd DataLabel="Student No">@context.StudNo</MudTd>
+        <MudTd DataLabel="Last Name">@context.LastName</MudTd>
+        <MudTd DataLabel="First Name">@context.FirstName</MudTd>
+        <MudTd DataLabel="Middle Name">@context.FirstName</MudTd>
+        <MudTd DataLabel="Department.">@context.Department</MudTd>
+        <MudTd DataLabel="Offer No.">@context.OfferNo</MudTd>
+        <MudTd DataLabel="Course No">@context.CourseNo</MudTd>
+        <MudTd DataLabel="Course Description">@context.CourseDesc</MudTd>
+        <MudTd DataLabel="Teacher Id">@context.TeacherId</MudTd>
+        <MudTd DataLabel="Section ID">@context.SectionId</MudTd>
+        <MudTd DataLabel="Time ID">@context.TimeId</MudTd>
+        <MudTd DataLabel="Room ID">@context.RoomId</MudTd>
+        <MudTd DataLabel="Days">@context.Days</MudTd>
+        <MudTd DataLabel="Units">@context.Units</MudTd>
+        <MudTd DataLabel="Created By">@context.CreatedBy</MudTd>
+        <MudTd DataLabel="Created On">@context.CreatedOn</MudTd>
+        
+        <MudTd DataLabel="">
+            <MudFab @onclick="@(()=>Edit(@context.ItemNo))" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" IconSize="Size.Small" Label="Edit" />
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+<div class="d-flex flex-wrap mt-4">
+    <MudSwitch @bind-Checked="@hover" Color="Color.Primary">Hover</MudSwitch>
+    <MudSwitch @bind-Checked="@dense" Color="Color.Secondary">Dense</MudSwitch>
+    <MudSwitch @bind-Checked="@striped" Color="Color.Tertiary">Striped</MudSwitch>
+    <MudSwitch @bind-Checked="@bordered" Color="Color.Warning">Bordered</MudSwitch>
+    <MudSpacer />
+    <div style="min-width:200px;">
+        <MudText Inline="true" Class="align-self-center">Selected1: @selectedItem1?.StudNo</MudText>
+    </div>
+</div>
+
+
+@code {
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = false;
+    private bool bordered = false;
+    private string searchString1 = "";
+    private Enrollment selectedItem1 = null;
+    private HashSet<Enrollment> selectedItems = new HashSet<Enrollment>();
+    private IEnumerable<Enrollment> Elements = new List<Enrollment>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Elements = await httpClient.GetFromJsonAsync<List<Enrollment>>("api/enrollment/GetEnrollment");
+        dense = true;
+        hover = true;
+    }
+
+    private bool FilterFunc1(Enrollment element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(Enrollment stud, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (stud.LastName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (stud.FirstName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if ($"{stud.ItemNo} {stud.StudNo} {stud.LastName}".Contains(searchString))
+            return true;
+        return false;
+    }
+
+    private void Edit(int studno)
+    {
+        selectedItem1 = selectedItems.FirstOrDefault(x => x.ItemNo == studno);
+        NavigationManager.NavigateTo($"/enrollmentupdate/{studno}");
+
+    }
+
+
+}

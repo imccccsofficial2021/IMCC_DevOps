@@ -1,0 +1,24 @@
+﻿
+
+@inject HttpClient httpClient;
+@inject NavigationManager NavigationManager
+@inject ISubjectService subjectservice
+@using MudBlazorWASM.Client.Components.SubjectCmpts
+@using MudBlazorWASM.Shared.Models
+
+
+
+<MudTabs Elevation="4" Rounded="true" Outlined="true" AlwaysShowScrollButtons="true" Color="@Color.Secondary" Class="mt-4">
+    <MudTabPanel Icon="@Icons.Material.Filled.Summarize" Text="Subjects Summary">
+@*        <MudProgressCircular Color="Color.Secondary" Indeterminate="true" />*@
+       <SubjectListView></SubjectListView>
+       @*<CreateSubject></CreateSubject>*@
+    </MudTabPanel>
+    <MudTabPanel Icon="@Icons.Material.Filled.CloudDownload" Text="Download" />
+    <MudTabPanel Icon="@Icons.Material.Filled.LocalPrintshop" Text="Print Subjects" />
+</MudTabs>
+
+
+@code
+{
+}

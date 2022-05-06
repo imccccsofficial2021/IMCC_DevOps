@@ -1,0 +1,83 @@
+﻿@page "/stud"
+@page "/stud/{id:int}"
+@using MudBlazorWASM.Client.Services
+@inject IStudentService StudentService
+
+@if (Id == null)
+{
+    <PageTitle>Add New Student</PageTitle>
+    <h3> Add New Student</h3>
+}
+else
+{
+     <PageTitle>Edit @stud.LASTNAME</PageTitle>
+    <h3>Edit @stud.LASTNAME</h3>
+}
+
+<EditForm Model="stud" OnSubmit="HandleSubmit">
+    <div>
+        <label for="ID"> ID</label>
+        <InputNumber id="Id" @bind-Value="stud.ID" class="form-control"></InputNumber>
+    </div>
+    <div>
+        <label for="STUDNO"> STUDO</label>
+        <InputNumber id="STUDNO" @bind-Value="stud.STUDNO" class="form-control"></InputNumber>
+    </div>
+    <div>
+        <label for="Lastname"> Last Name</label>
+        <InputText id="LastName" @bind-Value="stud.LASTNAME" class="form-control"></InputText>
+    </div>
+    <div>
+        <label for="FirstName"> First Name</label>
+        <InputText name="FirstName" @bind-Value="stud.FIRSTNAME" class="form-control"></InputText>
+    </div>
+    
+    <br />
+    <button type="Submit" class="btn btn-primary">@btnText</button>
+    <button type="Submit" class="btn btn-danger" @onclick="DeleteStudent">Delete Student</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    string btnText = string.Empty;
+
+    StudentList stud = new StudentList {};
+
+    protected override async Task OnInitializedAsync()
+    {
+        btnText = Id == null ? "Save New Student" : "Update Student";
+
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id == null)
+        {
+            //Add a New Student
+            stud.STUDNO = stud.STUDNO;
+        }
+        else
+        {
+            stud = await StudentService.GetSingleStudent((int) Id);
+        }
+    }
+
+    async Task HandleSubmit()
+    {
+        if (Id == null)
+        {
+            await StudentService.CreateStudent(stud);
+        }
+        else
+        {
+            await StudentService.UpdateStudent(stud);
+        }
+
+    }
+    async Task DeleteStudent()
+    {
+        await StudentService.DeleteStudent(stud.STUDNO);
+    }
+}
