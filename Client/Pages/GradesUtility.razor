@@ -1,0 +1,43 @@
+﻿@page "/egrades"
+
+
+@using MudBlazorWASM.Client.Components.GradesCmpts
+@using MudBlazorWASM.Client.Repository.Grades
+@using MudBlazorWASM.Shared.Models
+
+@inject HttpClient httpClient;
+@inject ISnackbar Snackbar;
+@inject IGradeServices GradeServices;
+
+
+
+<MudTabs Elevation="4" Rounded="true" Outlined="true" AlwaysShowScrollButtons="true" Color="@Color.Secondary" Class="mt-4">
+    <MudTabPanel Icon="@Icons.Material.Filled.Summarize" Text="eGrades Summary">
+         <GradesListView></GradesListView>   
+    </MudTabPanel>
+    <MudTabPanel Icon="@Icons.Material.Filled.CloudDownload" Text="Download" />
+    <MudTabPanel Icon="@Icons.Material.Filled.LocalPrintshop" Text="Print eGrades" />
+</MudTabs>
+
+
+@code{
+    [Parameter]
+    public string? StudLastname { get; set; }
+    [Parameter]
+    public string? StudFirstname { get; set; }
+    [Parameter]
+    public string? SubjectCode { get; set; }
+    [Parameter]
+    public string? SubjectDescription { get; set; }
+    [Parameter]
+    public string? Semester { get; set; }
+    [Parameter]
+    public string? SchoolYear { get; set; }
+    [Parameter]
+    public string? OfferNumber { get; set; }
+    [Parameter]
+    public string? ClassSched { get; set; }
+    GradesListView listView { get; set; } = new GradesListView();
+
+
+}

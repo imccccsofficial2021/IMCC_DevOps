@@ -1,0 +1,79 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "SchooldbContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "ProjectRootNamespace": "MudBlazorWASM.Shared",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 2,
+   "Tables": [
+      {
+         "Name": "[dbo].[Courses]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Departments]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Enrollments]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[GradeSummaries]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Instructors]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[LoginResults]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[LoginUsers]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[RegisterResults]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[RegisterUsers]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[RoomAssignment]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Students]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "WEBRAT-EXE\\SQLEXPRESS.schooldb",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": false,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false
+}
