@@ -1,0 +1,60 @@
+﻿
+@using System.Text.RegularExpressions
+@using MudBlazorWASM.Client.Components.GradesCmpts
+@using MudBlazorWASM.Client.Repository.Grades
+@using MudBlazorWASM.Shared.Models
+@inject IDialogService DialogService;
+@inject HttpClient httpClient;
+
+<MudDialog>
+    <DialogContent>
+                <MudTextField Label="Prelim" @bind-Value="paramGrades.Pre" />
+                <MudTextField Label="Midterm" @bind-Value="paramGrades.Mid" />
+                <MudTextField Label="Semi" @bind-Value="paramGrades.Semi" />
+                <MudTextField Label="Final" @bind-Value="paramGrades.Final" />
+        </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary"></MudButton>        
+        <MudButton Color="Color.Warning" OnClick="Confirm">Cancel</MudButton>
+
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] 
+    public GradeSummary paramGrades { get; set; } = new GradeSummary();
+
+    public string? PrelimG { get; set; }
+    public string? MidG { get; set; }
+    public string? SemiG { get; set; }
+    public string? FinalG { get; set; }
+
+
+
+    bool validGrades = true;
+    string[] errors = { };
+    MudForm form;
+
+    protected override async Task OnInitializedAsync()
+    {
+        PrelimG = "";
+        MidG = "";
+        SemiG = "";
+        FinalG = "";
+    }
+
+    private async void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private async void Confirm()
+    {
+
+
+        MudDialog.Close(DialogResult.Ok<GradeSummary>(paramGrades));
+
+    }
+}

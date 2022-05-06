@@ -1,0 +1,194 @@
+﻿
+@using MudBlazorWASM.Client.Components.GradesCmpts
+@using MudBlazorWASM.Client.Repository.Grades
+@using MudBlazorWASM.Shared.Models
+
+@inject HttpClient httpClient;
+@inject NavigationManager navManager;
+@inject ISnackbar Snackbar;
+@inject IDialogService DialogService;
+@inject IGradeServices GradeServices;
+
+<h1>e-Grades</h1>
+
+<MudTable HorizontalScrollbar="true" Height="600px" Breakpoint="Breakpoint.Sm" FixedHeader="true" Items="@Elements" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<GradeSummary,bool>(FilterFunc1)" 
+          @bind-SelectedItem="selectedItem1" CommitEditTooltip="Commit Edit"
+          OnCommitEditClick="@(() => Snackbar.Add("Student grades successfully updated"))" RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
+          RowEditCommit="ItemHasBeenCommitted" IsEditRowSwitchingBlocked="@blockSwitch">
+    <ToolBarContent>
+        <MudText Typo="Typo.caption">Updates as of @DateTime.Now</MudText>
+        <MudSpacer />
+        <MudText Typo="Typo.caption" Class="align-self-center">Selected Item(s): @selectedItem1?.Lastname, @selectedItem1?.Firstname - @selectedItem1?.Studno</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString1" Variant="Variant.Outlined" Label="Search OfferNo, StudentNo, Lastname or Firstname" Placeholder="Search keyword..." Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<GradeSummary, object>(x=>x.Id)">No.</MudTableSortLabel></MudTh>
+        <MudTh>Offer#</MudTh>
+        <MudTh>Code</MudTh>
+        <MudTh>Subject</MudTh>
+        <MudTh>StudentID</MudTh>
+        <MudTh>Lastname</MudTh>
+        <MudTh>Firstname</MudTh>
+        <MudTh>PRE</MudTh>
+        <MudTh>MID</MudTh>
+        <MudTh>SEMI</MudTh>
+        <MudTh>FINAL</MudTh>
+        <MudTh>AVE</MudTh>
+        <MudTh>Action</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="No.">@context.Id</MudTd>
+        <MudTd DataLabel="Offer #">@context.Offerno</MudTd>
+        <MudTd DataLabel="Course #">@context.Courseno</MudTd>
+        <MudTd DataLabel="Subject">@context.Subjectdesc</MudTd>
+        <MudTd DataLabel="Student ID">@context.Studno</MudTd>
+        <MudTd DataLabel="Lastname">@context.Lastname</MudTd>
+        <MudTd DataLabel="Firstname">@context.Firstname</MudTd>
+        <MudTd DataLabel="PRELIM">@context.Pre</MudTd>
+        <MudTd DataLabel="MIDTERM">@context.Mid</MudTd>
+        <MudTd DataLabel="SEMI">@context.Semi</MudTd>
+        <MudTd DataLabel="FINAL">@context.Final</MudTd>
+        <MudTd DataLabel="AVERAGE">@context.Average</MudTd>
+        <MudTd>
+            <MudIconButton OnClick="OpenDialog" Icon="@Icons.Material.Filled.UploadFile" Color="Color.Primary" aria-label="Update Student Grades" />
+        </MudTd>
+    </RowTemplate>
+
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[]{50, 100, 500}" />
+    </PagerContent>
+</MudTable>
+
+<div class="d-flex flex-wrap mt-4">
+    <MudSpacer />
+    <div style="min-width:200px;">
+        <MudText Inline="true" Class="align-self-center">Selected Item(s): @selectedItem1?.Lastname, @selectedItem1?.Firstname</MudText>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string? studNumber { get; set; }
+    [Parameter]
+    public int? Id { get; set; }
+
+    [Parameter]
+    public DialogParameters? parameters { get; set; }
+
+    [CascadingParameter] MudDialogInstance? MudDialog { get; set; }   
+    void Close() => MudDialog.Close(DialogResult.Ok(true));
+
+    private bool dense = false;
+    private bool hover = false;
+    private bool ronly = false;
+    private string searchString1 = "";
+    private GradeSummary selectedItem1 = null!;
+    private HashSet<GradeSummary> selectedItems = new HashSet<GradeSummary>();
+    private List<string> _events = new();
+    private GradeSummary? elementBeforeEdit;
+    private bool canCancelEdit = false;
+    private bool blockSwitch = false;
+
+    GradeSummary gradeItem = new GradeSummary();
+
+    private HashSet<GradeSummary>? Elements = new HashSet<GradeSummary>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        dense = true;
+        hover = true;
+        await GetListGrade();
+        //await GradeServices.GetGradeSummary();
+    }
+
+    private async Task<HashSet<GradeSummary>> GetListGrade()
+    {
+        Elements = await httpClient.GetFromJsonAsync<HashSet<GradeSummary>?>("api/grades/GetAllGrades");
+        return Elements;
+    }
+        
+    private void DeleteGrade(object element)
+    {
+        AddEditionEvent($"RowEditCommit event: Student grades to Element {((GradeSummary)element).Studno} has been deleted!");        
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (selectedItems == null)
+        {
+            await GradeServices.CreateGrade(gradeItem);   
+        }
+        else
+        {
+            await GradeServices.UpdateGrade(gradeItem);
+        }
+    }
+
+    private void OpenDialog()
+    {
+        DialogService.Show<DialogUpdateGrades>("Student No.: " + selectedItem1 + " Updated As Of: " + DateTime.Now);
+    }
+
+    private async Task DeleteHero()
+    {
+   
+    }
+
+    private bool FilterFunc1(GradeSummary element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(GradeSummary element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.Studno.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Lastname.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Firstname.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if ($"{element.Offerno} {element.Id} {element.Average}".Contains(searchString))
+            return true;
+        return false;
+    }
+
+    private void ClearEventLog()
+    {
+        _events.Clear();
+    }
+
+    private void AddEditionEvent(string message)
+    {
+        _events.Add(message);
+        StateHasChanged();
+    }
+
+    private void BackupItem(object element)
+    {
+        elementBeforeEdit = new()
+        {
+            Pre = ((GradeSummary)element).Pre,
+            Mid = ((GradeSummary)element).Mid,
+            Semi = ((GradeSummary)element).Semi,
+            Final = ((GradeSummary)element).Final,
+            Average = ((GradeSummary)element).Average
+        };
+        AddEditionEvent($"RowEditPreview event: made a backup of Element {((GradeSummary)element).Studno}");
+    }
+
+    private void ItemHasBeenCommitted(object element)
+    {
+        AddEditionEvent($"RowEditCommit event: Changes to Element {((GradeSummary)element).Studno} committed");
+    }
+
+    private void ResetItemToOriginalValues(object element)
+    {
+        ((GradeSummary)element).Pre = elementBeforeEdit?.Pre;
+        ((GradeSummary)element).Mid = elementBeforeEdit?.Mid;
+        ((GradeSummary)element).Semi = elementBeforeEdit?.Semi;
+        ((GradeSummary)element).Final = elementBeforeEdit?.Final;
+        ((GradeSummary)element).Average = elementBeforeEdit?.Average;
+        AddEditionEvent($"RowEditCancel event: Editing of Element {((GradeSummary)element).Studno} cancelled");
+    }
+
+}

@@ -1,0 +1,36 @@
+﻿<MudPaper Width="350px" Class="d-inline-flex py-3" Elevation="1" Style="background-color: #ed6bd5;">
+    <MudNavMenu Class="mud-width-full">
+        <MudText Typo="Typo.body2" Class="px-4 mud-text-secondary">Good Day, Admin!</MudText>
+        <MudDivider Class="my-2" />
+        <MudNavGroup Title="Dashboard" Icon="@Icons.Filled.Dashboard">
+            <MudNavLink Href="/myaccount" Icon="@Icons.Filled.AccountBox">My Profile</MudNavLink>
+        </MudNavGroup>                
+        <MudNavGroup Title="Management" Icon="@Icons.Filled.Settings" Expanded="false">
+            <MudNavGroup Title="eGrades" Icon="@Icons.Filled.Receipt" Expanded="false">
+                <MudNavLink Href="/egrades" Icon="@Icons.Filled.CoPresent">View List eGrades</MudNavLink>
+                <MudNavLink Href="/submitgrades" Title="Submit eGrades" Icon="@Icons.Filled.UploadFile">Submit eGrades</MudNavLink>
+                <MudNavLink Href="/update-grades" Icon="@Icons.Filled.EditNote">Update eGrades</MudNavLink>
+                <MudNavLink Href="/download-grades" Icon="@Icons.Filled.CloudDownload">Download eGrades</MudNavLink>
+                <MudNavLink Href="/print-grades" Icon="@Icons.Filled.LocalPrintshop">Print eGrades</MudNavLink>
+            </MudNavGroup>
+            <MudNavGroup Title="Subject" Icon="@Icons.Filled.Subject" Expanded="false">
+                <MudNavLink Href="/view-list-subjects" Icon="@Icons.Filled.Dvr">View List Subjects</MudNavLink>
+                <MudNavLink Href="/offer-subject" Icon="@Icons.Filled.LocalOffer">Open Subjects</MudNavLink>
+                <MudNavLink Href="/update-subject" Icon="@Icons.Filled.EditNote">Update Subjects</MudNavLink>
+                <MudNavLink Href="/remove-subjects" Icon="@Icons.Filled.PlaylistRemove">Remove Subjects</MudNavLink>
+                <MudNavLink Href="/print-subjects" Icon="@Icons.Filled.LocalPrintshop">Print Subjects</MudNavLink>
+            </MudNavGroup>
+            <MudNavGroup Title="Registration" Icon="@Icons.Filled.NaturePeople" Expanded="false">
+                <MudNavLink Href="/view-list-students" Icon="@Icons.Filled.Groups">Student</MudNavLink>
+                <MudNavLink Href="/view-list-adminstaff" Icon="@Icons.Filled.Groups">Admin Staff</MudNavLink>
+                <MudNavLink Href="/view-list-teaching" Icon="@Icons.Filled.Groups">Teaching Staff</MudNavLink>
+                <MudNavLink Href="/view-list-user" Icon="@Icons.Material.Filled.SupervisedUserCircle">User Accounts</MudNavLink>
+                <MudNavGroup Title="Utility Tools" Icon="@Icons.Material.Filled.Build">
+                    <MudNavLink Href="/printing" Icon="@Icons.Material.Filled.LocalPrintshop">Print List</MudNavLink>
+                    <MudNavLink Href="/download-utility" Icons="@Icons.Material.Filled.CloudDownload">Download List</MudNavLink>
+                </MudNavGroup>
+            </MudNavGroup>
+        </MudNavGroup>
+        <MudNavLink Href="/billing" Icon="@Icons.Filled.Receipt">Billing</MudNavLink>
+    </MudNavMenu>
+</MudPaper>

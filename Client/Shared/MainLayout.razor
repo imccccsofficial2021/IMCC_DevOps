@@ -1,0 +1,37 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider DefaultScrollbar="true" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="0" Style="background-color: #ed6bd5;"> 
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank" />
+        <MudIconButton Icon="@Icons.Custom.Brands.Chrome" Color="Color.Inherit" Link="https://imcc.edu.ph/" Target="_blank" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="0" Style="background-color: #ed6bd5;">
+        <MudDrawerHeader>
+            <MudText Typo="Typo.h6" Color="Color.Primary">Iligan Medical Center College</MudText>
+        </MudDrawerHeader>
+        <MudImage Src="IMCC-Logo.png" ObjectFit="ObjectFit.Fill" ObjectPosition="ObjectPosition.Center" Width="100" Alt="IMCC Logo"  Elevation="25" Class="rounded-lg"/>
+        <br />
+        <NavMenu />
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="my-14 pt-14">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    bool _drawerOpen = true;
+ 
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}
