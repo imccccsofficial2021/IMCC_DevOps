@@ -1,0 +1,115 @@
+﻿@page "/editsubject"
+@page "/editsubject/{id:int}"
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.Extensions.Logging
+@using MudBlazorWASM.Client.Services
+@inject HttpClient httpClient;
+@inject ISubjectService subjectservice
+@inject ISnackbar Snackbar
+@inject HttpClient httpClient;
+@inject NavigationManager NavigationManager
+
+
+
+<EditForm Model="@model" OnValidSubmit="Update" >
+<DataAnnotationsValidator/>
+<MudGrid>
+    <MudItem xs="12" sm="7">
+            <MudCard>
+            <MudCardContent>
+                    <MudTextField T="int" Label="ID" 
+                    @bind-Value="model.ID" For="@(() => model.ID)" />
+
+                    <MudTextField T="int" Label="Course no" 
+                    @bind-Value="model.COURSENO" For="@(() => model.COURSENO)"/>
+
+                    <MudTextField T="string" Label="Course Description" 
+                    @bind-Value="model.COURSEDESC" For="@(() => model.COURSEDESC)"/>
+
+                    <MudTextField T="int" Label="Credits" 
+                    @bind-Value="model.CREDITS" For="@(() => model.CREDITS)"/>
+
+                    <MudTextField T="string" Label="Enrollments" 
+                    @bind-Value="model.Enrollments" For="@(() => model.Enrollments)"/>
+
+                    
+
+            </MudCardContent>
+            <MudCardActions>
+
+             <MudButton  ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Update</MudButton>
+             <MudButton  @onclick="@(()=>Delete(@model.ID))" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Remove"Color="Color.Error">Remove</MudButton>
+             </MudCardActions>  
+       </MudCard>
+
+     </MudItem>
+    <MudItem xs="12" sm="5">
+        <MudPaper Class="pa-4 mud-height-full">
+            <MudText Typo="Typo.subtitle2">Validation Summary</MudText>
+            @if (success)
+            {
+                <MudText Color="Color.Success">Success</MudText>
+            }
+            else
+            {
+                <MudText Color="@Color.Error">
+                    <ValidationSummary />
+                </MudText>
+            }
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12">
+        <MudText Typo="Typo.body2" Align="Align.Center">
+            Fill out the form correctly to see the success message.
+        </MudText>
+    </MudItem>
+</MudGrid>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int? Id{ get; set; }
+
+    string Save = string.Empty;
+
+    SubjectList model = new SubjectList  {};
+    bool success;
+
+    public  class StudentList1
+    {
+        [Required]
+        public int  ID { get; set; }
+        [Required]
+        public int LASTNAME { get; set; }
+        [Required]
+        public string  FIRSTNAME { get; set; }
+
+    };
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+
+        model = await subjectservice.GetCourseNo((int) Id);
+    }
+
+    async Task Delete(int studno)
+    {
+        
+        await subjectservice.DeleteSubject(studno);
+        Snackbar.Add("Subject Deleted", Severity.Warning);
+    }
+    async Task Update()
+    {
+          success = true;
+          await subjectservice.UpdateAllSubjects(model);
+          Snackbar.Add("Subject Updated", Severity.Success);
+       
+    }
+
+
+
+
+
+}

@@ -1,0 +1,79 @@
+﻿@page "/addsubject"
+@page "/addsubject/{id:int}"
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.Extensions.Logging
+@inject HttpClient httpClient;
+@inject ILogger<CreateSubject> Logger
+@inject ISubjectService SubjectService
+@inject ISnackbar Snackbar
+@inject NavigationManager NavigationManager
+
+
+
+<h3>Create Subject</h3>
+
+<EditForm Model="@model" OnValidSubmit="Save1">
+<DataAnnotationsValidator/>
+<MudGrid>
+    <MudItem xs="12" sm="7">
+            <MudCard>
+            <MudCardContent>
+                    <MudTextField T="int" Label="ID" 
+                    @bind-Value="model.ID" For="@(() => model.ID)" />
+                    <MudTextField T="int" Label="CourseNo" 
+                    @bind-Value="model.COURSENO" For="@(() => model.COURSENO)"/>
+
+                    <MudTextField T="string" Label="Course Description" 
+                    @bind-Value="model.COURSEDESC" For="@(() => model.COURSEDESC)"/>
+
+                    <MudTextField T="int" Label="Credits" 
+                    @bind-Value="model.CREDITS" For="@(() => model.CREDITS)"/>
+
+                    <MudTextField T="string" Label="Credits" 
+                    @bind-Value="model.Enrollments" For="@(() => model.Enrollments)"/>
+
+            </MudCardContent>
+            <MudCardActions>
+             <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto"  >Save New Subject</MudButton>
+             </MudCardActions>  
+       </MudCard>
+           
+           
+     </MudItem>
+           
+    <MudItem xs="12">
+        <MudText Typo="Typo.body2" Align="Align.Center">
+            Fill out the form correctly to see the success message.
+        </MudText>
+    </MudItem>
+</MudGrid>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int? Id{ get; set; }
+    string Save = string.Empty;
+    SubjectList model = new SubjectList {};
+    
+
+        
+   
+
+     async Task Save1()
+    {
+           if(Id == null)
+        {
+            await SubjectService.CreateNewSubjects(model);
+           Snackbar.Add("Subject Saved", Severity.Success);
+        } 
+    }
+}
+        
+        
+
+
+
+    
+
+
+ 

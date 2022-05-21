@@ -11,10 +11,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Models\" />
+	  <Folder Include="ScaffoldItem\" />
 	</ItemGroup>
 </Project>

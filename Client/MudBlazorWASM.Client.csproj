@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
@@ -13,10 +13,6 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.4" PrivateAssets="all" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		  <PrivateAssets>all</PrivateAssets>
-		</PackageReference>
 		<PackageReference Include="MudBlazor" Version="6.0.9" />
 	</ItemGroup>
 
@@ -26,10 +22,8 @@
 
 	<ItemGroup>
 	  <Folder Include="Components\DepartmentCmpts\" />
-	  <Folder Include="Components\EnrollmentCmpts\" />
 	  <Folder Include="Components\PreRegistrationCmpts\" />
-	  <Folder Include="Components\StudentCmpts\" />
-	  <Folder Include="wwwroot\css\" />
+	  <Folder Include="Components\TeacherCmpts\" />
 	</ItemGroup>
 
 </Project>

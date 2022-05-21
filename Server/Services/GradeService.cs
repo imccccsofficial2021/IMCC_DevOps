@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazorWASM.Shared.Models;
-using System.Net.Http.Json;
 
 namespace MudBlazorWASM.Server.Services
 {
@@ -15,20 +14,20 @@ namespace MudBlazorWASM.Server.Services
             _navigationManager = navigationManager;
         }
 
-        public List<GradeSummary> AllGrades { get; set; } = new List<GradeSummary>();
+        public List<SummaryGrades> AllGrades { get; set; } = new List<SummaryGrades>();
 
         public async Task GetAllGrades()
         {
             //return AllGrades.ToList();
             // _navigationManager.NavigateTo("egrades");
-            var result = await _http.GetFromJsonAsync<List<GradeSummary>>("api/grades/GetAllGrades");
+            var result = await _http.GetFromJsonAsync<List<SummaryGrades>>("api/grades/GetAllGrades");
             if (result != null)
                 AllGrades = result;
         }
 
-        public async Task<GradeSummary> GetStudentID(int offerno)
+        public async Task<SummaryGrades> GetStudentID(int offerno)
         {
-            var studno = await _http.GetFromJsonAsync<GradeSummary>("api/grades/{offerno}");
+            var studno = await _http.GetFromJsonAsync<SummaryGrades>("api/grades/{offerno}");
             if (studno != null)
                 return studno;
             throw new Exception("Student Details Not Found!");
@@ -41,14 +40,9 @@ namespace MudBlazorWASM.Server.Services
             await SetGrades(result);
         }
 
-        public async Task UpdateGradesByStudNo(string studNo)
-        {
-
-        }
-
         private async Task SetGrades(HttpResponseMessage result)
         {
-            var response = await result.Content.ReadFromJsonAsync<List<GradeSummary>>();
+            var response = await result.Content.ReadFromJsonAsync<List<SummaryGrades>>();
             AllGrades = response;
             _navigationManager.NavigateTo("egrades");
         }

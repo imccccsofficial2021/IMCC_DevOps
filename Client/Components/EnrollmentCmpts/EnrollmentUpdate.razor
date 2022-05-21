@@ -1,0 +1,151 @@
+﻿@page "/enrollmentupdate"
+@page "/enrollmentupdate/{id:int}"
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.Extensions.Logging
+@using MudBlazorWASM.Client.Services
+@inject HttpClient httpClient;
+@inject IEnrollmentS Enroll
+@inject ISnackbar Snackbar
+@inject HttpClient httpClient;
+@inject NavigationManager NavigationManager
+
+
+
+<h3>Create Enrollment</h3>
+
+<EditForm Model="@model" OnValidSubmit="Update">
+<DataAnnotationsValidator/>
+<MudGrid>
+    <MudItem xs="12" sm="7">
+            <MudCard>
+            <MudCardContent>
+                    <MudTextField T="string" Label="Register No" 
+                    @bind-Value="model.RegNo" For="@(() => model.RegNo)" />
+
+                    <MudTextField T="string" Label="Last Name" 
+                    @bind-Value="model.LastName" For="@(() => model.LastName)"/>
+
+                    <MudTextField T="string" Label="First name" 
+                    @bind-Value="model.FirstName" For="@(() => model.FirstName)"/>
+                    <MudTextField T="string" Label="M.I Name" 
+                    @bind-Value="model.MiddleName" For="@(() => model.MiddleName)"/>
+                    <MudTextField T="string" Label="Department" 
+                    @bind-Value="model.Department" For="@(() => model.Department)" />
+
+                    <MudTextField T="string" Label="Offer No" 
+                    @bind-Value="model.OfferNo" For="@(() => model.OfferNo)"/>
+
+                    <MudTextField T="string" Label="Course No" 
+                    @bind-Value="model.CourseNo" For="@(() => model.CourseNo)"/>
+                    <MudTextField T="string" Label="Course Description" 
+                    @bind-Value="model.CourseDesc" For="@(() => model.CourseDesc)" />
+
+                    <MudTextField T="string" Label="Teacher Id" 
+                    @bind-Value="model.TeacherId" For="@(() => model.TeacherId)"/>
+
+                    <MudTextField T="string" Label="Section Id" 
+                    @bind-Value="model.SectionId" For="@(() => model.SectionId)" />
+
+                    <MudTextField T="string" Label="Time Id" 
+                    @bind-Value="model.TimeId" For="@(() => model.TimeId)"/>
+
+                    <MudTextField T="string" Label="Room Id" 
+                    @bind-Value="model.RoomId" For="@(() => model.RoomId)"/>
+                    <MudTextField T="string" Label="Days" 
+                    @bind-Value="model.Days" For="@(() => model.Days)" />
+
+                    <MudTextField T="string" Label="Units" 
+                    @bind-Value="model.Units" For="@(() => model.Units)"/>
+
+                    <MudTextField T="string" Label="Created By" 
+                    @bind-Value="model.CreatedBy" For="@(() => model.CreatedBy)"/>
+                    <MudTextField T="string" Label="Created On" 
+                    @bind-Value="model.CreatedOn" For="@(() => model.CreatedOn)" />
+
+                    
+
+
+
+
+            </MudCardContent>
+            <MudCardActions>
+             <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto"  >Update New Enrollment</MudButton>
+             <MudButton  @onclick="@(()=>Delete(@model.ItemNo))" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Remove"Color="Color.Error">Remove</MudButton>
+             </MudCardActions>  
+       </MudCard>
+           
+           
+     </MudItem>
+           @*<MudItem xs="12" sm="5">
+        <MudPaper Class="pa-4 mud-height-full">
+            <MudText Typo="Typo.subtitle2">Validation Summary</MudText>
+            @if (success)
+            {
+                <MudText Color="Color.Success"  Class="ml-auto">Success</MudText>
+            }
+            else
+            {
+                <MudText Color="@Color.Error">
+                    <ValidationSummary />
+                    
+                </MudText>
+            }
+        </MudPaper>
+    </MudItem>*@ 
+    <MudItem xs="12">
+        <MudText Typo="Typo.body2" Align="Align.Center">
+            Fill out the form correctly to see the success message.
+        </MudText>
+    </MudItem>
+</MudGrid>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int? Id{ get; set; }
+
+    string Save = string.Empty;
+
+   Enrollment model = new Enrollment {};
+    bool success;
+
+    //  public  class StudentList1
+    //  {
+    //    [Required]
+    //    public int  ID { get; set; }
+    //    [Required]
+    ///    public int COURSENO { get; set; }
+    ///    [Required]
+    //    public string  COURSEDESC { get; set; }
+    //    [Required]
+    //    public int  CREDITS { get; set; }
+    //     [Required]
+    //    public string  Enrollments { get; set; }
+    //};
+
+    
+    protected override async Task OnParametersSetAsync()
+    {
+
+        model = await Enroll.GetSingleEnrollment((int) Id);
+    }
+
+    async Task Delete(int studno)
+    {
+        
+        await Enroll.DeleteEnrollment(studno);
+        Snackbar.Add("Enrollment Deleted", Severity.Warning);
+    }
+    async Task Update()
+    {
+          success = true;
+          await Enroll.UpdateEnrollment(model);
+          Snackbar.Add("Enrollment Updated", Severity.Success);
+       
+    }
+
+
+
+
+
+}

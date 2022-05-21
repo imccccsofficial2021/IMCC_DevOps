@@ -1,4 +1,4 @@
-﻿<MudPaper Width="350px" Class="d-inline-flex py-3" Elevation="1" Style="background-color: #ed6bd5;">
+﻿<MudPaper Width="250px" Class="d-inline-flex py-3" Elevation="0" Style="background-color: #ed6bd5;">
     <MudNavMenu Class="mud-width-full">
         <MudText Typo="Typo.body2" Class="px-4 mud-text-secondary">Good Day, Admin!</MudText>
         <MudDivider Class="my-2" />
@@ -7,30 +7,45 @@
         </MudNavGroup>                
         <MudNavGroup Title="Management" Icon="@Icons.Filled.Settings" Expanded="false">
             <MudNavGroup Title="eGrades" Icon="@Icons.Filled.Receipt" Expanded="false">
-                <MudNavLink Href="/egrades" Icon="@Icons.Filled.CoPresent">View List eGrades</MudNavLink>
+                <MudNavLink Href="/egrades" Icon="@Icons.Filled.ViewList">View List eGrades</MudNavLink>
                 <MudNavLink Href="/submitgrades" Title="Submit eGrades" Icon="@Icons.Filled.UploadFile">Submit eGrades</MudNavLink>
                 <MudNavLink Href="/update-grades" Icon="@Icons.Filled.EditNote">Update eGrades</MudNavLink>
                 <MudNavLink Href="/download-grades" Icon="@Icons.Filled.CloudDownload">Download eGrades</MudNavLink>
                 <MudNavLink Href="/print-grades" Icon="@Icons.Filled.LocalPrintshop">Print eGrades</MudNavLink>
             </MudNavGroup>
             <MudNavGroup Title="Subject" Icon="@Icons.Filled.Subject" Expanded="false">
-                <MudNavLink Href="/view-list-subjects" Icon="@Icons.Filled.Dvr">View List Subjects</MudNavLink>
+                <MudNavLink Href="/subjects1" Icon="@Icons.Filled.ViewList">View List Subjects</MudNavLink>
+                <MudNavLink Href="/addsubject" Icon="@Icons.Filled.LocalOffer">Add New Subject</MudNavLink>
                 <MudNavLink Href="/offer-subject" Icon="@Icons.Filled.LocalOffer">Open Subjects</MudNavLink>
                 <MudNavLink Href="/update-subject" Icon="@Icons.Filled.EditNote">Update Subjects</MudNavLink>
                 <MudNavLink Href="/remove-subjects" Icon="@Icons.Filled.PlaylistRemove">Remove Subjects</MudNavLink>
                 <MudNavLink Href="/print-subjects" Icon="@Icons.Filled.LocalPrintshop">Print Subjects</MudNavLink>
             </MudNavGroup>
-            <MudNavGroup Title="Registration" Icon="@Icons.Filled.NaturePeople" Expanded="false">
-                <MudNavLink Href="/view-list-students" Icon="@Icons.Filled.Groups">Student</MudNavLink>
-                <MudNavLink Href="/view-list-adminstaff" Icon="@Icons.Filled.Groups">Admin Staff</MudNavLink>
-                <MudNavLink Href="/view-list-teaching" Icon="@Icons.Filled.Groups">Teaching Staff</MudNavLink>
-                <MudNavLink Href="/view-list-user" Icon="@Icons.Material.Filled.SupervisedUserCircle">User Accounts</MudNavLink>
-                <MudNavGroup Title="Utility Tools" Icon="@Icons.Material.Filled.Build">
-                    <MudNavLink Href="/printing" Icon="@Icons.Material.Filled.LocalPrintshop">Print List</MudNavLink>
-                    <MudNavLink Href="/download-utility" Icons="@Icons.Material.Filled.CloudDownload">Download List</MudNavLink>
-                </MudNavGroup>
+            <MudNavGroup Title="Student" Icon="@Icons.Filled.Subject" Expanded="false">
+                <MudNavLink Href="/students" Icon="@Icons.Filled.ViewList">View List Student</MudNavLink>
+                <MudNavLink Href="/addstudent" Icon="@Icons.Filled.LocalOffer">Add New Student</MudNavLink>
+                <MudNavLink Href="/offer-subject" Icon="@Icons.Filled.LocalOffer">Open Student</MudNavLink>
+                <MudNavLink Href="/update-subject" Icon="@Icons.Filled.EditNote">Update Student</MudNavLink>
+                <MudNavLink Href="/remove-subjects" Icon="@Icons.Filled.PlaylistRemove">Remove Student</MudNavLink>
+                <MudNavLink Href="/print-subjects" Icon="@Icons.Filled.LocalPrintshop">Print Student</MudNavLink>
+            </MudNavGroup>
+             <MudNavGroup Title="Enrollments" Icon="@Icons.Filled.Subject" Expanded="false">
+                <MudNavLink Href="/enrollments" Icon="@Icons.Filled.ViewList">View List Enrollments</MudNavLink>
+                <MudNavLink Href="/addenrollment" Icon="@Icons.Filled.LocalOffer">Register New Enrollment</MudNavLink>
+                <MudNavLink Href="/offer-subject" Icon="@Icons.Filled.LocalOffer">Open Student</MudNavLink>
+                <MudNavLink Href="/update-subject" Icon="@Icons.Filled.EditNote">Update Student</MudNavLink>
+                <MudNavLink Href="/remove-subjects" Icon="@Icons.Filled.PlaylistRemove">Remove Student</MudNavLink>
+                <MudNavLink Href="/print-subjects" Icon="@Icons.Filled.LocalPrintshop">Print Student</MudNavLink>
             </MudNavGroup>
         </MudNavGroup>
         <MudNavLink Href="/billing" Icon="@Icons.Filled.Receipt">Billing</MudNavLink>
+         
+            
+        
     </MudNavMenu>
 </MudPaper>
+<div class="nav-item px-3">
+            <NavLink class="nav-link" href="/addstudent">
+                <span class="oi oi-people" aria-hidden="true"></span> Subjct1
+            </NavLink>
+        </div>

@@ -1,0 +1,109 @@
+﻿@page "/studentupdate"
+@page "/studentupdate/{id:int}"
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.Extensions.Logging
+@using MudBlazorWASM.Client.Services
+@inject HttpClient httpClient;
+@inject IStudentService StudentService
+@inject ISnackbar Snackbar
+@inject HttpClient httpClient;
+@inject NavigationManager NavigationManager
+
+
+
+<EditForm Model="@model" OnValidSubmit="Update" >
+<DataAnnotationsValidator/>
+<MudGrid>
+    <MudItem xs="12" sm="7">
+            <MudCard>
+            <MudCardContent>
+                    <MudTextField T="int" Label="StudentID" 
+                    @bind-Value="model.ID" For="@(() => model.ID)" />
+
+                    <MudTextField T="string" Label="Last Name" 
+                    @bind-Value="model.LASTNAME" For="@(() => model.LASTNAME)"/>
+
+                    <MudTextField T="string" Label="First name" 
+                    @bind-Value="model.FIRSTNAME" For="@(() => model.FIRSTNAME)"/>
+
+                    
+
+            </MudCardContent>
+            <MudCardActions>
+
+             <MudButton  ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Update</MudButton>
+             <MudButton  @onclick="@(()=>Delete(@model.STUDNO))" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Remove"Color="Color.Error">Remove</MudButton>
+             </MudCardActions>  
+       </MudCard>
+
+     </MudItem>
+    <MudItem xs="12" sm="5">
+        <MudPaper Class="pa-4 mud-height-full">
+            <MudText Typo="Typo.subtitle2">Validation Summary</MudText>
+            @if (success)
+            {
+                <MudText Color="Color.Success">Success</MudText>
+            }
+            else
+            {
+                <MudText Color="@Color.Error">
+                    <ValidationSummary />
+                </MudText>
+            }
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12">
+        <MudText Typo="Typo.body2" Align="Align.Center">
+            Fill out the form correctly to see the success message.
+        </MudText>
+    </MudItem>
+</MudGrid>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int? Id{ get; set; }
+
+    string Save = string.Empty;
+
+    StudentList model = new StudentList {};
+    bool success;
+
+    public  class StudentList1
+    {
+        [Required]
+        public int  ID { get; set; }
+        [Required]
+        public int LASTNAME { get; set; }
+        [Required]
+        public string  FIRSTNAME { get; set; }
+
+    };
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+
+        model = await StudentService.GetSingleStudent((int) Id);
+    }
+
+    async Task Delete(int studno)
+    {
+        
+        await StudentService.DeleteStudent(studno);
+        Snackbar.Add("Student Deleted", Severity.Warning);
+    }
+    async Task Update()
+    {
+          success = true;
+          await StudentService.UpdateStudent(model);
+          Snackbar.Add("Student Updated", Severity.Success);
+       
+    }
+
+
+
+
+
+}

@@ -12,9 +12,13 @@ namespace MudBlazorWASM.Server.Pages
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
-        private readonly ILogger<ErrorModel> _logger;
+#pragma warning disable IDE0052 // Remove unread private members
+        private readonly ILogger<ErrorModel>? _logger;
+#pragma warning restore IDE0052 // Remove unread private members
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public ErrorModel(ILogger<ErrorModel> logger)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _logger = logger;
         }

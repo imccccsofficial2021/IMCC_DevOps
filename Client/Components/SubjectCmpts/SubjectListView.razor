@@ -1,5 +1,104 @@
-﻿<h3>SubjectListView</h3>
+﻿@page "/subjects1"
+@inject HttpClient httpClient;
+@inject ISnackbar Snackbar;
+@inject NavigationManager NavigationManager
+@inject ISubjectService subjectservice
+
+
+
+
+
+<MudTable Items="@Elements" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<SubjectList,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Periodic Elements</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>ID</MudTh>
+        <MudTh>COURSE NO</MudTh>
+        <MudTh>COURSE DESCRIPTION</MudTh>
+        <MudTh>CREDITS</MudTh>
+         <MudTh>Enrollment</MudTh>
+         <MudTh>Action</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="No.">@context.ID</MudTd>
+        <MudTd DataLabel="Course No.">@context.COURSENO</MudTd>
+        <MudTd DataLabel="Course Description">@context.COURSEDESC</MudTd>
+        <MudTd DataLabel="Credits">@context.CREDITS</MudTd>
+        <MudTd DataLabel="Enrollment">@context.Enrollments</MudTd>
+        <MudTd DataLabel="">
+
+            <MudFab @onclick="@(()=>Edit(@context.ID))" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" IconSize="Size.Small" />
+           
+    
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+<div class="d-flex flex-wrap mt-4">
+    <MudSwitch @bind-Checked="@hover" Color="Color.Primary">Hover</MudSwitch>
+    <MudSwitch @bind-Checked="@dense" Color="Color.Secondary">Dense</MudSwitch>
+    <MudSwitch @bind-Checked="@striped" Color="Color.Tertiary">Striped</MudSwitch>
+    <MudSwitch @bind-Checked="@bordered" Color="Color.Warning">Bordered</MudSwitch>
+    <MudSpacer />
+    <div style="min-width:200px;">
+        <MudText Inline="true" Class="align-self-center">Selected1: @selectedItem1?.COURSEDESC</MudText>
+    </div>
+</div>
+
+
 
 @code {
+   private bool dense = false;
+    private bool hover = true;
+    private bool striped = false;
+    private bool bordered = false;
+    private string searchString1 = "";
+    private SubjectList selectedItem1 = null;
+    private HashSet<SubjectList> selectedItems = new HashSet<SubjectList>();
+    private IEnumerable<SubjectList> Elements = new List<SubjectList>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Elements = await httpClient.GetFromJsonAsync<List<SubjectList>>("api/subjects/getallsubjects");
+        dense = true;
+        hover = true;
+    }
+
+    private bool FilterFunc1(SubjectList element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(SubjectList stud, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (stud.COURSEDESC.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (stud.COURSEDESC.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if ($"{stud.COURSEDESC} {stud.ID} {stud.COURSENO}".Contains(searchString))
+            return true;
+        return false;
+    }
+
+    //private void Save()
+   // {
+     //   subjectservice.CreateNewSubjects(selectedItem1);
+      //  selectedItem1 = new SubjectList();
+      //  Snackbar.Add("Student Saved", Severity.Success);
+      //  httpClient.GetFromJsonAsync<List<SubjectList>>("api/subjects");
+   // }
+
+    private void Edit(int id)
+    {
+        selectedItem1 = selectedItems.FirstOrDefault(x => x.ID == id);
+        NavigationManager.NavigateTo($"/editsubject/{id}");
+    }
+
+ 
 
 }
