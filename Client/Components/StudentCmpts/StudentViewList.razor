@@ -1,0 +1,88 @@
+﻿@page "/students"
+@inject NavigationManager NavigationManager
+@inject IStudentService studentService
+@inject ISnackbar Snackbar
+@inject HttpClient httpClient;
+
+
+<MudTable Items="@Elements" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<Student,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Periodic Elements</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>ID</MudTh>
+        <MudTh>STUD ID</MudTh>
+        <MudTh>LASTNAME</MudTh>
+        <MudTh>FIRSTNAME</MudTh>
+        <MudTh>Status</MudTh>
+         <MudTh>Action</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Stud ID.">@context.Studno</MudTd>
+        <MudTd DataLabel="Lastname">@context.Lastname</MudTd>
+        <MudTd DataLabel="Firstname">@context.Firstname</MudTd>
+        <MudTd DataLabel="Firstname">@context.Status</MudTd>
+        <MudTd DataLabel="">
+            <MudFab @onclick="@(()=>Edit(@context.Studno))" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" IconSize="Size.Small" Label="Edit" />
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+<div class="d-flex flex-wrap mt-4">
+    <MudSwitch @bind-Checked="@hover" Color="Color.Primary">Hover</MudSwitch>
+    <MudSwitch @bind-Checked="@dense" Color="Color.Secondary">Dense</MudSwitch>
+    <MudSwitch @bind-Checked="@striped" Color="Color.Tertiary">Striped</MudSwitch>
+    <MudSwitch @bind-Checked="@bordered" Color="Color.Warning">Bordered</MudSwitch>
+    <MudSpacer />
+    <div style="min-width:200px;">
+        <MudText Inline="true" Class="align-self-center">Selected1: @selectedItem1?.Studno</MudText>
+    </div>
+</div>
+
+
+@code {
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = false;
+    private bool bordered = false;
+    private string searchString1 = "";
+    private Student selectedItem1 = null;
+    private HashSet<Student> selectedItems = new HashSet<Student>();
+    private IEnumerable<Student> Elements = new List<Student>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Elements = await httpClient.GetFromJsonAsync<List<Student>>("api/student/GetStudent");
+        dense = true;
+        hover = true;
+    }
+
+    private bool FilterFunc1(Student element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(Student stud, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (stud.Studno.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (stud.Firstname.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if ($"{stud.Studno} {stud.Firstname} {stud.Lastname}".Contains(searchString))
+            return true;
+        return false;
+    }
+
+    private void Edit(int studno)
+    {
+        selectedItem1 = selectedItems.FirstOrDefault(x => x.Studno == studno);
+        NavigationManager.NavigateTo($"/StudentUpdate/{studno}");
+
+    }
+
+
+}

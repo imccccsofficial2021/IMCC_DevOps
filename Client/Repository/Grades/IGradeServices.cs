@@ -4,11 +4,11 @@ namespace MudBlazorWASM.Client.Repository.Grades
 {
     public interface IGradeServices
     {
-        HashSet<GradeSummary> GetListGrades { get; set; }
+        HashSet<SubmittedGrade> GetListGrades { get; set; }
         Task GetGradeSummary();
-        Task<GradeSummary> GetGradeItemAsync(string studentId);
-        Task CreateGrade(GradeSummary grade);
-        Task UpdateGrade(GradeSummary grade);
-        Task DeleteGrade(GradeSummary grade);
+        Task<SubmittedGrade> GetGradeItemAsync(string studentId);
+        Task CreateGrade(SubmittedGrade grade);
+        Task UpdateGrade(SubmittedGrade grade);
+        Task DeleteGrade(SubmittedGrade grade);
     }
 }

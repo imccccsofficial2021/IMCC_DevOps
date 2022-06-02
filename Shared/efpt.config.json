@@ -14,52 +14,12 @@
    "SelectedToBeGenerated": 2,
    "Tables": [
       {
-         "Name": "[dbo].[Courses]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Departments]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Enrollments]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[GradeSummaries]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Instructors]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[LoginResults]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[LoginUsers]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[RegisterResults]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[RegisterUsers]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[RoomAssignment]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Students]",
+         "Name": "[dbo].[Admissions]",
          "ObjectType": 0
       }
    ],
-   "UiHint": "WEBRAT-EXE\\SQLEXPRESS.schooldb",
-   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UiHint": "EGRADES\\SQLEXPRESS.tempdb_imcc",
+   "UseBoolPropertiesWithoutDefaultSql": true,
    "UseDatabaseNames": false,
    "UseDbContextSplitting": false,
    "UseFluentApiOnly": false,
@@ -67,13 +27,13 @@
    "UseHierarchyId": false,
    "UseInflector": true,
    "UseLegacyPluralizer": false,
-   "UseManyToManyEntity": false,
+   "UseManyToManyEntity": true,
    "UseNoConstructor": false,
    "UseNoDefaultConstructor": false,
    "UseNoNavigations": false,
-   "UseNoObjectFilter": false,
+   "UseNoObjectFilter": true,
    "UseNodaTime": false,
-   "UseNullableReferences": false,
+   "UseNullableReferences": true,
    "UseSchemaFolders": false,
    "UseSpatial": false
 }

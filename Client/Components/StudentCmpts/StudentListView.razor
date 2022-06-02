@@ -1,0 +1,124 @@
+﻿
+@inject HttpClient httpClient;
+@inject ISnackbar Snackbar;
+@inject NavigationManager NavigationManager
+@using MudBlazorWASM.Client.Components.GradesCmpts
+@using MudBlazorWASM.Shared.Models
+
+<h1>Subjects</h1>
+
+<MudTable HorizontalScrollbar="true" Height="600px" Breakpoint="Breakpoint.Sm" FixedHeader="true" Items="@Elements" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<Student,bool>(FilterFunc1)" 
+          @bind-SelectedItem="selectedItem1" CommitEditTooltip="Commit Edit"
+          >
+    <ToolBarContent>
+        <MudText Typo="Typo.caption">Updates as of @DateTime.Now</MudText>
+        <MudSpacer />
+        <MudText Typo="Typo.caption" Class="align-self-center">Selected Item(s): @selectedItem1?.Studno, @selectedItem1?.Lastname - @selectedItem1?.Firstname</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<Student, object>(x=>x.Studno)">No.</MudTableSortLabel></MudTh>
+        <MudTh>Student ID</MudTh>
+        <MudTh>Lastnmae</MudTh>
+        <MudTh>Firstname</MudTh>
+         <MudTh>Status</MudTh>
+       
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="No.">@context.Studno</MudTd>
+        <MudTd DataLabel="Lastname">@context.Lastname</MudTd>
+        <MudTd DataLabel="Firstname">@context.Firstname</MudTd>
+        <MudTd DataLabel="Status">@context.Status</MudTd>
+      
+       
+    </RowTemplate>
+    <RowEditingTemplate>
+        <MudTd>@context.Studno</MudTd>
+        <MudTd>@context.Lastname</MudTd>
+        <MudTd>@context.Firstname</MudTd>
+        <MudTd>@context.Status</MudTd>
+       
+    </RowEditingTemplate>
+
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+<button class="btn btn-primary" @onclick="CreateNewSubject1">Create UG STUDENT</button>
+
+<div class="d-flex flex-wrap mt-4">
+@*   <MudSwitch @bind-Checked="@hover" Color="Color.Primary">Hover</MudSwitch>
+    <MudSwitch @bind-Checked="@dense" Color="Color.Secondary">Dense</MudSwitch>
+    <MudSwitch @bind-Checked="@striped" Color="Color.Tertiary">Striped</MudSwitch>
+    <MudSwitch @bind-Checked="@bordered" Color="Color.Warning">Bordered</MudSwitch>*@
+    <MudSpacer />
+    <div style="min-width:200px;">
+        <MudText Inline="true" Class="align-self-center">Selected Item(s): @selectedItem1?.Studno, @selectedItem1?.Lastname</MudText>
+    </div>
+</div>
+
+@code {
+    private bool dense = false;
+    private bool hover = false;
+    private bool ronly = false;
+    private string searchString1 = "";
+    private Student selectedItem1 = null!;
+    private HashSet<Student> selectedItems = new HashSet<Student>();
+    private List<string> _events = new();
+    private Student? elementBeforeEdit;
+    private bool canCancelEdit = false;
+    private bool blockSwitch = false;
+    private double ComputedFinalGrades;
+
+    private IEnumerable<Student> Elements = new List<Student>();
+
+   // protected override async Task OnInitializedAsync()
+   // {
+     //   Elements = await httpClient.GetFromJsonAsync<List<StudentList>>("api/student/GetStudent");        
+     //   dense = true;
+     //   hover = true;
+
+   // }
+
+    private bool FilterFunc1(Student element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(Student element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.Lastname.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if ($"{element.Studno} {element.Firstname} {element.Lastname}".Contains(searchString))
+            return true;
+        return false;
+    }
+
+    private void ClearEventLog()
+    {
+        _events.Clear();
+    }
+
+    private void AddEditionEvent(string message)
+    {
+        _events.Add(message);
+        StateHasChanged();
+    }
+
+
+    private void ItemHasBeenCommitted(object element)
+    {
+        AddEditionEvent($"RowEditCommit event: Changes to Element {((Student)element).Studno} committed");
+    }
+
+    void ShowSubjects(int id)
+    {
+        NavigationManager.NavigateTo($"addstudent/{id}");
+    }
+     void CreateNewSubject1()
+    {
+        NavigationManager.NavigateTo("/addstudent");
+    }
+
+}

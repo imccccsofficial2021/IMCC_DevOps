@@ -11,10 +11,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
+<<<<<<< Updated upstream
 	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Models\" />
+=======
+	  <Folder Include="Models\" />
+	  <Folder Include="ScaffoldItem\" />
+>>>>>>> Stashed changes
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.4" />
 	</ItemGroup>
 </Project>

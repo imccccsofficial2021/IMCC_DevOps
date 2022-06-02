@@ -14,9 +14,9 @@ namespace MudBlazorWASM.Client.Repository.Grades
             _httpClient = httpClient;
             _navigationManager = navigationManager;
         }
-        public HashSet<GradeSummary> GetListGrades { get; set; } = new();
+        public HashSet<SubmittedGrade> GetListGrades { get; set; } = new();
 
-        public async Task CreateGrade(GradeSummary grade)
+        public async Task CreateGrade(SubmittedGrade grade)
         {
             var result = await _httpClient.PostAsJsonAsync($"api/grades/AddNewGrade", grade);
             await SetGrades(result);
@@ -24,15 +24,15 @@ namespace MudBlazorWASM.Client.Repository.Grades
         }
 
 
-        public async Task DeleteGrade(GradeSummary grade)
+        public async Task DeleteGrade(SubmittedGrade grade)
         {
             var result = await _httpClient.DeleteAsync($"api/grades/{grade}");
             await SetGrades(result);
         }
 
-        public async Task<GradeSummary> GetGradeItemAsync(string studentId)
+        public async Task<SubmittedGrade> GetGradeItemAsync(string studentId)
         {
-            var result = await _httpClient.GetFromJsonAsync<GradeSummary>($"api/grades/{studentId}");
+            var result = await _httpClient.GetFromJsonAsync<SubmittedGrade>($"api/grades/{studentId}");
             if (result != null)
                 return result;
             throw new Exception("Student details not found!");
@@ -40,12 +40,12 @@ namespace MudBlazorWASM.Client.Repository.Grades
 
         public async Task GetGradeSummary()
         {
-            var result = await _httpClient.GetFromJsonAsync<HashSet<GradeSummary>>("api/grades");
+            var result = await _httpClient.GetFromJsonAsync<HashSet<SubmittedGrade>>("api/grades");
             if (result != null)
                 GetListGrades = result;
         }
 
-        public async Task UpdateGrade(GradeSummary grade)
+        public async Task UpdateGrade(SubmittedGrade grade)
         {
             var result = await _httpClient.PutAsJsonAsync($"api/grades/{grade.Studno}", grade);
             await SetGrades(result);
@@ -53,7 +53,7 @@ namespace MudBlazorWASM.Client.Repository.Grades
 
         private async Task SetGrades(HttpResponseMessage result)
         {
-            var response = await result.Content.ReadFromJsonAsync<HashSet<GradeSummary>>();
+            var response = await result.Content.ReadFromJsonAsync<HashSet<SubmittedGrade>>();
             GetListGrades = response;
             _navigationManager.NavigateTo("egrades");
         }

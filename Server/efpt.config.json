@@ -14,7 +14,7 @@
    "SelectedToBeGenerated": 1,
    "Tables": [
       {
-         "Name": "[dbo].[Courses]",
+         "Name": "[dbo].[Classrooms]",
          "ObjectType": 0
       },
       {
@@ -22,58 +22,46 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Enrollments]",
+         "Name": "[dbo].[Employees]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[GradeSummaries]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Instructors]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[LoginResults]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[LoginUsers]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[RegisterResults]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[RegisterUsers]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[RoomAssignment]",
+         "Name": "[dbo].[Schedules]",
          "ObjectType": 0
       },
       {
          "Name": "[dbo].[Students]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SubjectOffering]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Subjects]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SubmittedGrades]",
+         "ObjectType": 0
       }
    ],
-   "UiHint": "WEBRAT-EXE\\SQLEXPRESS.schooldb",
-   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UiHint": "EGRADES\\SQLEXPRESS.tempdb_imcc",
+   "UseBoolPropertiesWithoutDefaultSql": true,
    "UseDatabaseNames": false,
    "UseDbContextSplitting": false,
    "UseFluentApiOnly": true,
    "UseHandleBars": false,
    "UseHierarchyId": false,
-   "UseInflector": false,
+   "UseInflector": true,
    "UseLegacyPluralizer": false,
-   "UseManyToManyEntity": false,
+   "UseManyToManyEntity": true,
    "UseNoConstructor": false,
-   "UseNoDefaultConstructor": false,
+   "UseNoDefaultConstructor": true,
    "UseNoNavigations": false,
-   "UseNoObjectFilter": false,
+   "UseNoObjectFilter": true,
    "UseNodaTime": false,
-   "UseNullableReferences": false,
+   "UseNullableReferences": true,
    "UseSchemaFolders": false,
    "UseSpatial": false
 }

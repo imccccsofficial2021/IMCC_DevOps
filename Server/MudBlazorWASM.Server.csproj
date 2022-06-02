@@ -32,7 +32,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+<<<<<<< Updated upstream
 	  <Folder Include="Areas\Identity\" />
+=======
+>>>>>>> Stashed changes
 	  <Folder Include="Data\" />
 	  <Folder Include="Includes\" />
 	</ItemGroup>
