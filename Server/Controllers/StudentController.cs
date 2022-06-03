@@ -8,28 +8,28 @@ namespace MudBlazorWASM.Server.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
-        private readonly SchoolDB123Context _context;
+        private readonly SchooldbContext _context;
 
-        public StudentController(SchoolDB123Context context)
+        public StudentController(SchooldbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
         [Route("GetStudent")]
-        public async Task<ActionResult<List<StudentList>>> GetStudent()
+        public async Task<ActionResult<List<Student>>> GetStudent()
         {
-            var Students = await _context.StudentLists.ToListAsync();
+            var Students = await _context.Students.ToListAsync();
             return Ok(Students);
         }
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<StudentList>> GetSingleStudent(int id)
+        public async Task<ActionResult<Student>> GetSingleStudent(int id)
         {
-            var stud = await _context.StudentLists
+            var stud = await _context.Students
             //.Include(s=> s.Grades)
-            .FirstOrDefaultAsync(s => s.STUDNO == id);
+            .FirstOrDefaultAsync(s => s.Studno == id);
             if (stud == null)
             {
                 return NotFound("No Student with this Id. :/");
@@ -38,36 +38,36 @@ namespace MudBlazorWASM.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<StudentList>>> CreateStudent(StudentList stud)
+        public async Task<ActionResult<List<Student>>> CreateStudent(Student stud)
         {
 
-            _context.StudentLists.Add(stud);
+            _context.Students.Add(stud);
             await _context.SaveChangesAsync();
 
             return Ok(await GetDbStudents());
         }
-        private async Task<List<StudentList>> GetDbStudents()
+        private async Task<List<Student>> GetDbStudents()
         {
-            return await _context.StudentLists.ToListAsync();
+            return await _context.Students.ToListAsync();
         }
-        private async Task<List<StudentList>> GetDbStudents1()
+        private async Task<List<Student>> GetDbStudents1()
         {
-            return await _context.StudentLists.ToListAsync();
+            return await _context.Students.ToListAsync();
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<List<StudentList>>> UpdateStudent(StudentList stud, int id)
+        public async Task<ActionResult<List<Student>>> UpdateStudent(Student stud, int id)
         {
 
-            var dbstud = await _context.StudentLists
-                .FirstOrDefaultAsync(s => s.STUDNO == id);
+            var dbstud = await _context.Students
+                .FirstOrDefaultAsync(s => s.Studno == id);
             if (dbstud == null)
                 return NotFound("Sorry, No Student Found. :/");
-            dbstud.ID = stud.ID;
-            dbstud.LASTNAME = stud.LASTNAME;
-            dbstud.FIRSTNAME = stud.FIRSTNAME;
-            dbstud.MI = stud.MI;
-           
+            dbstud.Studno = stud.Studno;
+            dbstud.Lastname = stud.Lastname;
+            dbstud.Firstname = stud.Firstname;
+            dbstud.Mi = stud.Mi;
+
 
             await _context.SaveChangesAsync();
 
@@ -75,15 +75,15 @@ namespace MudBlazorWASM.Server.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<StudentList>> DeleteStudent(int id)
+        public async Task<ActionResult<Student>> DeleteStudent(int id)
         {
 
-            var dbstud = await _context.StudentLists
-                .FirstOrDefaultAsync(s => s.STUDNO == id);
+            var dbstud = await _context.Students
+                .FirstOrDefaultAsync(s => s.Studno == id);
             if (dbstud == null)
                 return NotFound("Sorry, No Student Found. :/");
 
-            _context.StudentLists.Remove(dbstud);
+            _context.Students.Remove(dbstud);
 
             await _context.SaveChangesAsync();
 

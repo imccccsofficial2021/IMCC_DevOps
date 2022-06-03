@@ -7,28 +7,28 @@ namespace MudBlazorWASM.Server.Controllers
     [ApiController]
     public class EnrollmentController : Controller
     {
-        private readonly SchoolDB123Context _context;
+        private readonly SchooldbContext _context;
 
-        public EnrollmentController(SchoolDB123Context context)
+        public EnrollmentController(SchooldbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
         [Route("GetEnrollment")]
-        public async Task<ActionResult<List<Enrollment>>> GetEnrollments()
+        public async Task<ActionResult<List<Admission>>> GetEnrollments()
         {
-            var enroll = await _context.Enrollments.ToListAsync();
+            var enroll = await _context.Admissions.ToListAsync();
             return Ok(enroll);
         }
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Enrollment>> GetSingleEnrollment(int id)
+        public async Task<ActionResult<Admission>> GetSingleEnrollment(int id)
         {
-            var stud = await _context.Enrollments
+            var stud = await _context.Admissions
             //.Include(s=> s.Grades)
-            .FirstOrDefaultAsync(s => s.ItemNo == id);
+            .FirstOrDefaultAsync(s => s.Enrid == id);
             if (stud == null)
             {
                 return NotFound("No Enrollment with this Id. :/");
@@ -37,49 +37,43 @@ namespace MudBlazorWASM.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Enrollment>>> CreateEnrollment(Enrollment stud)
+        public async Task<ActionResult<List<Admission>>> CreateEnrollment(Admission stud)
         {
 
-            _context.Enrollments.Add(stud);
+            _context.Admissions.Add(stud);
             await _context.SaveChangesAsync();
 
             return Ok(await GetDbEnrollment());
         }
-        private async Task<List<Enrollment>> GetDbEnrollment()
+        private async Task<List<Admission>> GetDbEnrollment()
         {
-            return await _context.Enrollments.ToListAsync();
+            return await _context.Admissions.ToListAsync();
         }
-        private async Task<List<Enrollment>> GetDbEnrollment1()
+        private async Task<List<Admission>> GetDbEnrollment1()
         {
-            return await _context.Enrollments.ToListAsync();
+            return await _context.Admissions.ToListAsync();
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<List<Enrollment>>> UpdateEnrollment(Enrollment stud, int id)
+        public async Task<ActionResult<List<Admission>>> UpdateEnrollment(Admission stud, int id)
         {
 
-            var dbstud = await _context.Enrollments
-                .FirstOrDefaultAsync(s => s.ItemNo == id);
+            var dbstud = await _context.Admissions
+                .FirstOrDefaultAsync(s => s.Enrid == id);
             if (dbstud == null)
                 return NotFound("Sorry, No Enrollment Found. :/");
-            dbstud.ItemNo = stud.ItemNo;
-            dbstud.RegNo = stud.RegNo;
-            dbstud.StudNo = stud.StudNo;
-            dbstud.LastName = stud.LastName;
-            dbstud.FirstName = stud.FirstName;
-            dbstud.MiddleName = stud.MiddleName;
-            dbstud.Department = stud.Department;
-            dbstud.OfferNo = stud.OfferNo;
-            dbstud.CourseNo = stud.CourseNo;
-            dbstud.CourseDesc = stud.CourseDesc;
-            dbstud.TeacherId = stud.TeacherId;
-            dbstud.SectionId = stud.SectionId;
-            dbstud.TimeId = stud.TimeId;
-            dbstud.RoomId = stud.RoomId;
-            dbstud.Days = stud.Days;
-            dbstud.Units = stud.Units;
+            dbstud.Offerno = stud.Offerno;
+            dbstud.Subjcode = stud.Subjcode;
+            dbstud.Deptno = stud.Deptno;
+            dbstud.Studno = stud.Studno;
+            dbstud.Lastname = stud.Lastname;
+            dbstud.Firstname = stud.Firstname;
+            dbstud.Mi = stud.Mi;
+            dbstud.Semcode = stud.Semcode;
+            dbstud.Syr = stud.Syr;
+            dbstud.Status = stud.Status;
             dbstud.CreatedBy = stud.CreatedBy;
-            dbstud.CreatedOn = stud.CreatedOn;
+            dbstud.DateCreated = stud.DateCreated;
 
 
 
@@ -89,15 +83,15 @@ namespace MudBlazorWASM.Server.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Enrollment>> DeleteEnrollment(int id)
+        public async Task<ActionResult<Admission>> DeleteEnrollment(int id)
         {
 
-            var dbstud = await _context.Enrollments
-                .FirstOrDefaultAsync(s => s.ItemNo == id);
+            var dbstud = await _context.Admissions
+                .FirstOrDefaultAsync(s => s.Enrid == id);
             if (dbstud == null)
                 return NotFound("Sorry, No Student Found. :/");
 
-            _context.Enrollments.Remove(dbstud);
+            _context.Admissions.Remove(dbstud);
 
             await _context.SaveChangesAsync();
 

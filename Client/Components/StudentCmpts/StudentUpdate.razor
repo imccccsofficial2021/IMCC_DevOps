@@ -18,22 +18,29 @@
     <MudItem xs="12" sm="7">
             <MudCard>
             <MudCardContent>
-                    <MudTextField T="int" Label="StudentID" 
-                    @bind-Value="model.ID" For="@(() => model.ID)" />
+                    <MudTextField T="int" Label="IDNO." 
+                    @bind-Value="model.Studno" For="@(() => model.Studno)" />
 
-                    <MudTextField T="string" Label="Last Name" 
-                    @bind-Value="model.LASTNAME" For="@(() => model.LASTNAME)"/>
+                    <MudTextField T="string" Label="LASTNAME" 
+                    @bind-Value="model.Lastname" For="@(() => model.Lastname)"/>
 
-                    <MudTextField T="string" Label="First name" 
-                    @bind-Value="model.FIRSTNAME" For="@(() => model.FIRSTNAME)"/>
+                    <MudTextField T="string" Label="FIRSTNAME" 
+                    @bind-Value="model.Firstname" For="@(() => model.Firstname)"/>
 
-                    
+                    <MudTextField T="string" Label="MI" 
+                    @bind-Value="model.Mi" For="@(() => model.Mi)"/>
 
+                    <MudTextField T="string" Label="SEX" 
+                    @bind-Value="model.Gender" For="@(() => model.Gender)"/>
+
+                    <MudTextField T="int" Label="DEPT#" 
+                    @bind-Value="model.Deptno" For="@(() => model.Deptno)" />
+     
             </MudCardContent>
             <MudCardActions>
 
              <MudButton  ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Update</MudButton>
-             <MudButton  @onclick="@(()=>Delete(@model.STUDNO))" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Remove"Color="Color.Error">Remove</MudButton>
+             <MudButton  @onclick="@(()=>Delete(@model.Studno))" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Remove"Color="Color.Error">Remove</MudButton>
              </MudCardActions>  
        </MudCard>
 
@@ -67,7 +74,7 @@
 
     string Save = string.Empty;
 
-    StudentList model = new StudentList {};
+    Student model = new Student {};
     bool success;
 
     public  class StudentList1

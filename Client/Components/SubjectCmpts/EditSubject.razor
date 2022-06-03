@@ -18,28 +18,41 @@
     <MudItem xs="12" sm="7">
             <MudCard>
             <MudCardContent>
-                    <MudTextField T="int" Label="ID" 
-                    @bind-Value="model.ID" For="@(() => model.ID)" />
+                    <MudTextField T="string" Label="Code" 
+                    @bind-Value="model.Coursecode" For="@(() => model.Coursecode)" />
 
-                    <MudTextField T="int" Label="Course no" 
-                    @bind-Value="model.COURSENO" For="@(() => model.COURSENO)"/>
+                    <MudTextField T="string" Label="Description" 
+                    @bind-Value="model.Coursedesc" For="@(() => model.Coursedesc)"/>
 
-                    <MudTextField T="string" Label="Course Description" 
-                    @bind-Value="model.COURSEDESC" For="@(() => model.COURSEDESC)"/>
+                    <MudTextField T="int" Label="Lab Units" 
+                    @bind-Value="model.Lab" For="@(() => model.Lab)"/>
 
-                    <MudTextField T="int" Label="Credits" 
-                    @bind-Value="model.CREDITS" For="@(() => model.CREDITS)"/>
+                    <MudTextField T="int" Label="Lec Units" 
+                    @bind-Value="model.Lec" For="@(() => model.Lec)"/>
 
-                    <MudTextField T="string" Label="Enrollments" 
-                    @bind-Value="model.Enrollments" For="@(() => model.Enrollments)"/>
+                    <MudTextField T="int" Label="Total Units" 
+                    @bind-Value="model.Units" For="@(() => model.Units)"/>
 
-                    
+                    <MudTextField T="string" Label="Category" 
+                    @bind-Value="model.Category" For="@(() => model.Category)" />
+
+                    <MudTextField T="string" Label="Status" 
+                    @bind-Value="model.Status" For="@(() => model.Status)"/>
+
+                    <MudTextField T="int" Label="Semester" 
+                    @bind-Value="model.Semester" For="@(() => model.Semester)"/>
+
+                    <MudTextField T="string" Label="YearLevel" 
+                    @bind-Value="model.Yrlevel" For="@(() => model.Yrlevel)"/>
+
+                    <MudTextField T="string" Label="Type" 
+                    @bind-Value="model.Tyype" For="@(() => model.Tyype)"/>                                       
 
             </MudCardContent>
             <MudCardActions>
 
              <MudButton  ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Update</MudButton>
-             <MudButton  @onclick="@(()=>Delete(@model.ID))" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Remove"Color="Color.Error">Remove</MudButton>
+             <MudButton  @onclick="@(()=>Delete(Convert.ToInt32(@model.Coursecode)))" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Remove"Color="Color.Error">Remove</MudButton>
              </MudCardActions>  
        </MudCard>
 
@@ -73,17 +86,38 @@
 
     string Save = string.Empty;
 
-    SubjectList model = new SubjectList  {};
+    Subject model = new Subject  {};
     bool success;
 
-    public  class StudentList1
+    public  class SubjectList
     {
         [Required]
-        public int  ID { get; set; }
+        public int  Code { get; set; }
         [Required]
-        public int LASTNAME { get; set; }
+        public string Desc { get; set; }
         [Required]
-        public string  FIRSTNAME { get; set; }
+        public string  Lab { get; set; }
+        [Required]
+        public int  Lec { get; set; }
+        [Required]
+        public int Units { get; set; }
+        [Required]
+        public string Category { get; set; }
+        [Required]
+        public int  Status { get; set; }
+        [Required]
+        public string Prereq { get; set; }
+        [Required]
+        public string  Deptno { get; set; }
+        [Required]
+        public int  Semester { get; set; }
+        [Required]
+        public int Semcode { get; set; }
+        [Required]
+        public string YrLvl { get; set; }
+        public int  Courseno { get; set; }
+        [Required]
+        public int Type { get; set; }
 
     };
 
@@ -94,10 +128,10 @@
         model = await subjectservice.GetCourseNo((int) Id);
     }
 
-    async Task Delete(int studno)
+    async Task Delete(int corsCode)
     {
         
-        await subjectservice.DeleteSubject(studno);
+        await subjectservice.DeleteSubject(corsCode);
         Snackbar.Add("Subject Deleted", Severity.Warning);
     }
     async Task Update()

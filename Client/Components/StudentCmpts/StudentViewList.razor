@@ -5,26 +5,31 @@
 @inject HttpClient httpClient;
 
 
-<MudTable Items="@Elements" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<StudentList,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
+<MudTable Items="@Elements" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<Student,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Periodic Elements</MudText>
         <MudSpacer />
         <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh>ID</MudTh>
-        <MudTh>STUDNO</MudTh>
+        <MudTh>NO.</MudTh>
+        <MudTh>IDNO.</MudTh>
         <MudTh>LASTNAME</MudTh>
         <MudTh>FIRSTNAME</MudTh>
-         <MudTh>Action</MudTh>
+        <MudTh>MI</MudTh>
+        <MudTh>SEX</MudTh>
+        <MudTh>DEPT#</MudTh>
+         <MudTh>ACTION</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="No.">@context.STUDNO</MudTd>
-        <MudTd DataLabel="Student No.">@context.ID</MudTd>
-        <MudTd DataLabel="Last Name">@context.LASTNAME</MudTd>
-        <MudTd DataLabel="First Name">@context.FIRSTNAME</MudTd>
+        <MudTd DataLabel="IDNO.">@context.Studno</MudTd>
+        <MudTd DataLabel="LASTNAME">@context.Lastname</MudTd>
+        <MudTd DataLabel="FIRST">@context.Firstname</MudTd>
+        <MudTd DataLabel="MI">@context.Mi</MudTd>
+        <MudTd DataLabel="SEX">@context.Gender</MudTd>
+        <MudTd DataLabel="DEPT#">@context.Deptno</MudTd>
         <MudTd DataLabel="">
-            <MudFab @onclick="@(()=>Edit(@context.STUDNO))" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" IconSize="Size.Small" Label="Edit" />
+            <MudFab @onclick="@(()=>Edit(@context.Studno))" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" IconSize="Size.Small" Label="Edit" />
         </MudTd>
     </RowTemplate>
     <PagerContent>
@@ -39,7 +44,7 @@
     <MudSwitch @bind-Checked="@bordered" Color="Color.Warning">Bordered</MudSwitch>
     <MudSpacer />
     <div style="min-width:200px;">
-        <MudText Inline="true" Class="align-self-center">Selected1: @selectedItem1?.LASTNAME</MudText>
+        <MudText Inline="true" Class="align-self-center">Selected1: @selectedItem1.Lastname + ", " + @selectedItem1?.Firstname</MudText>
     </div>
 </div>
 
@@ -50,35 +55,35 @@
     private bool striped = false;
     private bool bordered = false;
     private string searchString1 = "";
-    private StudentList selectedItem1 = null;
-    private HashSet<StudentList> selectedItems = new HashSet<StudentList>();
-    private IEnumerable<StudentList> Elements = new List<StudentList>();
+    private Student selectedItem1 = null;
+    private HashSet<Student> selectedItems = new HashSet<Student>();
+    private IEnumerable<Student> Elements = new List<Student>();
 
     protected override async Task OnInitializedAsync()
     {
-        Elements = await httpClient.GetFromJsonAsync<List<StudentList>>("api/student/GetStudent");
+        Elements = await httpClient.GetFromJsonAsync<List<Student>>("api/student/GetStudent");
         dense = true;
         hover = true;
     }
 
-    private bool FilterFunc1(StudentList element) => FilterFunc(element, searchString1);
+    private bool FilterFunc1(Student element) => FilterFunc(element, searchString1);
 
-    private bool FilterFunc(StudentList stud, string searchString)
+    private bool FilterFunc(Student stud, string searchString)
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
-        if (stud.LASTNAME.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (stud.Lastname.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        if (stud.FIRSTNAME.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (stud.Firstname.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        if ($"{stud.STUDNO} {stud.ID} {stud.LASTNAME}".Contains(searchString))
+        if ($"{stud.Studno} {stud.Lastname} {stud.Firstname}".Contains(searchString))
             return true;
         return false;
     }
 
     private void Edit(int studno)
     {
-        selectedItem1 = selectedItems.FirstOrDefault(x => x.STUDNO == studno);
+        selectedItem1 = selectedItems.FirstOrDefault(x => x.Studno == studno);
         NavigationManager.NavigateTo($"/StudentUpdate/{studno}");
 
     }

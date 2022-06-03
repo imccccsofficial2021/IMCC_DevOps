@@ -13,16 +13,16 @@ namespace MudBlazorWASM.Client.Services.EnrollmentServices
             _navigationManager = navigationManager;
         }
 
-        public List<Enrollment> Enrolls { get; set; }
+        public List<Admission> Enrolls { get; set; }
 
         private async Task SetEnrollment(HttpResponseMessage result)
         {
-            var response = await result.Content.ReadFromJsonAsync<List<Enrollment>>();
+            var response = await result.Content.ReadFromJsonAsync<List<Admission>>();
             Enrolls = response;
             _navigationManager.NavigateTo("enrollments");
         }
 
-        public async Task CreateEnrollment(Enrollment enr)
+        public async Task CreateEnrollment(Admission enr)
         {
             var result = await _http.PostAsJsonAsync("api/enrollment", enr);
             await SetEnrollment(result);
@@ -36,22 +36,22 @@ namespace MudBlazorWASM.Client.Services.EnrollmentServices
 
         public async Task GetEnrollments()
         {
-            var result = await _http.GetFromJsonAsync<List<Enrollment>>("api/enrollment/GetEnrollment");
+            var result = await _http.GetFromJsonAsync<List<Admission>>("api/enrollment/GetEnrollment");
             if (result != null)
                 Enrolls = result;
         }
 
-        public async Task<Enrollment> GetSingleEnrollment(int id)
+        public async Task<Admission> GetSingleEnrollment(int id)
         {
-            var result = await _http.GetFromJsonAsync<Enrollment>($"api/enrollment/{id}");
+            var result = await _http.GetFromJsonAsync<Admission>($"api/enrollment/{id}");
             if (result != null)
                 return result;
             throw new Exception("Enrollment Not Found");
         }
 
-        public async Task UpdateEnrollment(Enrollment enr2)
+        public async Task UpdateEnrollment(Admission enr2)
         {
-            var result = await _http.PutAsJsonAsync($"api/enrollment/{enr2.ItemNo}", enr2);
+            var result = await _http.PutAsJsonAsync($"api/enrollment/{enr2.Enrid}", enr2);
             await SetEnrollment(result);
         }
     }

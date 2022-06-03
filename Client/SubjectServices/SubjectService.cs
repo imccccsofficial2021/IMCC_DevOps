@@ -15,18 +15,18 @@ namespace MudBlazorWASM.Client.SubjectServices
             _navigationManager = navigationManager;
         }
 
-       // public List<SubjectList> AllSubjects { get; set; } = new List<SubjectList>();
-        public List<SubjectList> subject { get; set; } = new List<SubjectList>();
+        // public List<SubjectList> AllSubjects { get; set; } = new List<SubjectList>();
+        public List<Subject> Subject { get; set; } = new List<Subject>();
 
 
-        public async Task CreateNewSubjects(SubjectList subjectlist)
+        public async Task CreateNewSubjects(Subject subjectlist)
         {
             var result = await _http.PostAsJsonAsync("api/subjects", subjectlist);
             await SetSubjects(result);
         }
-        public async Task<SubjectList> GetCourseNo(int id)
+        public async Task<Subject> GetCourseNo(int id)
         {
-            var result = await _http.GetFromJsonAsync<SubjectList>($"api/subjects/{id}");
+            var result = await _http.GetFromJsonAsync<Subject>($"api/subjects/{id}");
             if (result != null)
                 return result;
             throw new Exception("Subject Details Not Found!");
@@ -41,8 +41,8 @@ namespace MudBlazorWASM.Client.SubjectServices
 
         private async Task SetSubjects(HttpResponseMessage result)
         {
-            var response = await result.Content.ReadFromJsonAsync<List<SubjectList>>();
-            subject = response;
+            var response = await result.Content.ReadFromJsonAsync<List<Subject>>();
+            Subject = response;
             _navigationManager.NavigateTo("subjects1");
         }
 
@@ -50,14 +50,14 @@ namespace MudBlazorWASM.Client.SubjectServices
         {
             //return AllGrades.ToList();
             // _navigationManager.NavigateTo("egrades");
-            var result = await _http.GetFromJsonAsync<List<SubjectList>>("api/subjects/GetAllSubjects");
+            var result = await _http.GetFromJsonAsync<List<Subject>>("api/subjects/GetAllSubjects");
             if (result != null)
-                subject = result;
+                Subject = result;
         }
 
-        public async Task UpdateAllSubjects(SubjectList subjectlist)
+        public async Task UpdateAllSubjects(Subject subjectlist)
         {
-            var result = await _http.PutAsJsonAsync($"api/subjects/{subjectlist.ID}", subjectlist);
+            var result = await _http.PutAsJsonAsync($"api/subjects/{subjectlist.Coursecode}", subjectlist);
             await SetSubjects(result);
         }
     }

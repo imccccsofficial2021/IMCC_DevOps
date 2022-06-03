@@ -18,19 +18,35 @@
     <MudItem xs="12" sm="7">
             <MudCard>
             <MudCardContent>
-                    <MudTextField T="int" Label="ID" 
-                    @bind-Value="model.ID" For="@(() => model.ID)" />
-                    <MudTextField T="int" Label="CourseNo" 
-                    @bind-Value="model.COURSENO" For="@(() => model.COURSENO)"/>
+                    <MudTextField T="string" Label="Code" 
+                    @bind-Value="model.Coursecode" For="@(() => model.Coursecode)" />
 
-                    <MudTextField T="string" Label="Course Description" 
-                    @bind-Value="model.COURSEDESC" For="@(() => model.COURSEDESC)"/>
+                    <MudTextField T="string" Label="Description" 
+                    @bind-Value="model.Coursedesc" For="@(() => model.Coursedesc)"/>
 
-                    <MudTextField T="int" Label="Credits" 
-                    @bind-Value="model.CREDITS" For="@(() => model.CREDITS)"/>
+                    <MudTextField T="int" Label="Lab Units" 
+                    @bind-Value="model.Lab" For="@(() => model.Lab)"/>
 
-                    <MudTextField T="string" Label="Credits" 
-                    @bind-Value="model.Enrollments" For="@(() => model.Enrollments)"/>
+                    <MudTextField T="int" Label="Lec Units" 
+                    @bind-Value="model.Lec" For="@(() => model.Lec)"/>
+
+                    <MudTextField T="int" Label="Total Units" 
+                    @bind-Value="model.Units" For="@(() => model.Units)"/>
+
+                    <MudTextField T="string" Label="Category" 
+                    @bind-Value="model.Category" For="@(() => model.Category)" />
+
+                    <MudTextField T="string" Label="Status" 
+                    @bind-Value="model.Status" For="@(() => model.Status)"/>
+
+                    <MudTextField T="int" Label="Semester" 
+                    @bind-Value="model.Semester" For="@(() => model.Semester)"/>
+
+                    <MudTextField T="string" Label="YearLevel" 
+                    @bind-Value="model.Yrlevel" For="@(() => model.Yrlevel)"/>
+
+                    <MudTextField T="string" Label="Type" 
+                    @bind-Value="model.Tyype" For="@(() => model.Tyype)"/>
 
             </MudCardContent>
             <MudCardActions>
@@ -53,7 +69,7 @@
     [Parameter]
     public int? Id{ get; set; }
     string Save = string.Empty;
-    SubjectList model = new SubjectList {};
+    Subject model = new Subject {};
     
 
         

@@ -11,6 +11,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Models\" />
 	  <Folder Include="ScaffoldItem\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.4" />
 	</ItemGroup>
 </Project>

@@ -1,8 +1,6 @@
 ﻿#nullable disable
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MudBlazorWASM.Server.Data;
-using MudBlazorWASM.Shared.Models;
 
 namespace MudBlazorWASM.Server.Controllers
 {
@@ -10,25 +8,25 @@ namespace MudBlazorWASM.Server.Controllers
     [ApiController]
     public class SubjectsController : ControllerBase
     {
-        private readonly SchoolDB123Context _context;
+        private readonly SchooldbContext _context;
 
-        public SubjectsController(SchoolDB123Context context)
+        public SubjectsController(SchooldbContext context)
         {
             _context = context;
         }
         [HttpGet]
         [Route("getallsubjects")]
-        public async Task<ActionResult<List<SubjectList>>> GetAllSubjects()
+        public async Task<ActionResult<List<Subject>>> GetAllSubjects()
         {
-            var subjects = await _context.SubjectLists.ToListAsync();
+            var subjects = await _context.Subjects.ToListAsync();
             return Ok(subjects);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<SubjectList>>> GetCourseNo(int id)
+        public async Task<ActionResult<List<Subject>>> GetCourseNo(string code)
         {
-            var subjects = await _context.SubjectLists
-              .FirstOrDefaultAsync(s => s.ID == id);
+            var subjects = await _context.Subjects
+              .FirstOrDefaultAsync(s => s.Coursecode == code);
             if (subjects == null)
             {
                 return NotFound("No Subject with this course number. :/");
@@ -38,27 +36,27 @@ namespace MudBlazorWASM.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<SubjectList>>> CreateNewSubject(SubjectList subjectlist)
+        public async Task<ActionResult<List<Subject>>> CreateNewSubject(Subject subjectlist)
         {
-            _context.SubjectLists.Add(subjectlist);
+            _context.Subjects.Add(subjectlist);
             await _context.SaveChangesAsync();
 
             return Ok(await GetDbListSubjects());
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<List<SubjectList>>> UpdateAllSubjects(SubjectList subjectlist, int id)
+        public async Task<ActionResult<List<Subject>>> UpdateAllSubjects(Subject subjectlist, string code)
         {
-            var subjects = await _context.SubjectLists
-                .FirstOrDefaultAsync(s => s.ID == id);
+            var subjects = await _context.Subjects
+                .FirstOrDefaultAsync(s => s.Coursecode == code);
             if (subjects == null)
                 return NotFound("Sorry, Offer Number Not Found!");
-            subjects.ID = subjectlist.ID;
-            subjects.COURSENO = subjectlist.COURSENO;
-            subjects.COURSEDESC = subjectlist.COURSEDESC;
-            subjects.CREDITS = subjectlist.CREDITS;
-            subjects.Enrollments = subjectlist.Enrollments;
-            
+            subjects.Coursecode = subjectlist.Coursecode;
+            subjects.Coursedesc = subjectlist.Coursedesc;
+            subjects.Lab = subjectlist.Lab;
+            subjects.Lec = subjectlist.Lec;
+            subjects.Units = subjectlist.Units;
+
 
             await _context.SaveChangesAsync();
 
@@ -67,27 +65,27 @@ namespace MudBlazorWASM.Server.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<SubjectList>> DeleteSubject( int id)
+        public async Task<ActionResult<Subject>> DeleteSubject(string coursecode)
         {
-            var subject = await _context.SubjectLists
-                .FirstOrDefaultAsync(s => s.ID == id);
+            var subject = await _context.Subjects
+                .FirstOrDefaultAsync(s => s.Coursecode == coursecode);
             if (subject == null)
                 return NotFound("Sorry, Offer Number Not Found!");
 
-            _context.SubjectLists.Remove(subject);
+            _context.Subjects.Remove(subject);
             await _context.SaveChangesAsync();
 
             return Ok(await GetDbListSubjects1());
         }
 
-        private async Task<List<SubjectList>> GetDbListSubjects()
+        private async Task<List<Subject>> GetDbListSubjects()
         {
-            return await _context.SubjectLists.ToListAsync();
+            return await _context.Subjects.ToListAsync();
         }
 
-        private async Task<List<SubjectList>> GetDbListSubjects1()
+        private async Task<List<Subject>> GetDbListSubjects1()
         {
-            return await _context.SubjectLists.ToListAsync();
+            return await _context.Subjects.ToListAsync();
         }
     }
 }
