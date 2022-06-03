@@ -2,12 +2,12 @@
 {
     public interface ISubjectService
     {
-        List<SubjectList> subject { get; set; }
+        List<Subject> Subject { get; set; }
 
         Task GetAllSubject();
-        Task CreateNewSubjects(SubjectList subjectlist);
-        Task<SubjectList> GetCourseNo(int courseno);
+        Task CreateNewSubjects(Subject subjectlist);
+        Task<Subject> GetCourseNo(int courseno);
         Task DeleteSubject(int id);
-        Task UpdateAllSubjects(SubjectList subjectlist);
+        Task UpdateAllSubjects(Subject subjectlist);
     }
 }

@@ -2,14 +2,14 @@
 {
     public interface IEnrollmentS
     {
-        List<Enrollment> Enrolls { get; set; }
+        List<Admission> Enrolls { get; set; }
 
         Task GetEnrollments();
 
         // Task GetSingleStudent(int id);
-        Task<Enrollment> GetSingleEnrollment(int id);
+        Task<Admission> GetSingleEnrollment(int id);
         Task DeleteEnrollment(int id);
-        Task UpdateEnrollment(Enrollment student);
-        Task CreateEnrollment(Enrollment student);
+        Task UpdateEnrollment(Admission student);
+        Task CreateEnrollment(Admission student);
     }
 }

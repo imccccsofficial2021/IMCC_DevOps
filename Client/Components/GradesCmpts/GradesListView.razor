@@ -6,67 +6,66 @@
 
 <h1>e-Grades</h1>
 
-<MudTable HorizontalScrollbar="true" Height="600px" Breakpoint="Breakpoint.Sm" FixedHeader="true" Items="@Elements" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<SummaryGrades,bool>(FilterFunc1)" 
+<MudTable HorizontalScrollbar="true" Height="600px" Breakpoint="Breakpoint.Sm" FixedHeader="true" Items="@Elements" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<SubmittedGrade,bool>(FilterFunc1)" 
           @bind-SelectedItem="selectedItem1" CommitEditTooltip="Commit Edit"
           OnCommitEditClick="@(() => Snackbar.Add("Student grades successfully updated"))" RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
           RowEditCommit="ItemHasBeenCommitted" IsEditRowSwitchingBlocked="@blockSwitch">
     <ToolBarContent>
         <MudText Typo="Typo.caption">Updates as of @DateTime.Now</MudText>
         <MudSpacer />
-        <MudText Typo="Typo.caption" Class="align-self-center">Selected Item(s): @selectedItem1?.Last, @selectedItem1?.First - @selectedItem1?.Studno</MudText>
+        <MudText Typo="Typo.caption" Class="align-self-center">Selected Item(s): @selectedItem1?.Offerno, @selectedItem1?.Offerno - @selectedItem1?.Studno</MudText>
         <MudSpacer />
         <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<SummaryGrades, object>(x=>x.Id)">No.</MudTableSortLabel></MudTh>
-        <MudTh>Offer#</MudTh>
-        <MudTh>Code</MudTh>
-        <MudTh>Subject</MudTh>
-        <MudTh>StudentID</MudTh>
-        <MudTh>Lastname</MudTh>
-        <MudTh>Firstname</MudTh>
-        <MudTh>PRE</MudTh>
-        <MudTh>MID</MudTh>
-        <MudTh>SEMI</MudTh>
-        <MudTh>FINAL</MudTh>
-        <MudTh>AVE</MudTh>
+        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<SubmittedGrade, object>(x=>x.Studno)">No.</MudTableSortLabel></MudTh>
+        <MudTh>No.</MudTh>
+        <MudTh>Student ID</MudTh>
+        <MudTh>Complete Name</MudTh>
+        <MudTh>PRELIM</MudTh>
+        <MudTh>Midterm</MudTh>
+        <MudTh>Semi</MudTh>
+        <MudTh>Final</MudTh>
+        <MudTh>Ave</MudTh>
+        <MudTh>Remarks</MudTh>
+        <MudTh>Actions</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="No.">@context.Id</MudTd>
-        <MudTd DataLabel="Offer #">@context.Offerno</MudTd>
-        <MudTd DataLabel="Course #">@context.Courseno</MudTd>
-        <MudTd DataLabel="Subject">@context.Subjects</MudTd>
-        <MudTd DataLabel="Student ID">@context.Studno</MudTd>
-        <MudTd DataLabel="Lastname">@context.Last</MudTd>
-        <MudTd DataLabel="Firstname">@context.First</MudTd>
-        <MudTd DataLabel="PRELIM">@context.Term1</MudTd>
-        <MudTd DataLabel="MIDTERM">@context.Term2</MudTd>
-        <MudTd DataLabel="SEMI">@context.Term3</MudTd>
-        <MudTd DataLabel="FINAL">@context.Term4</MudTd>
-        <MudTd DataLabel="AVERAGE">@context.Average</MudTd>
+        <MudTd DataLabel="No.">@context.Submissionid</MudTd>
+        <MudTd DataLabel="Student ID">@context.Offerno</MudTd>
+        <MudTd DataLabel="Complete Name">@context.Lastname + ", " + @context.Firstname + " " + @context.Mi</MudTd>
+        <MudTd DataLabel="Prelim">@context.Prelim</MudTd>
+        <MudTd DataLabel="Midterm">@context.Midterm</MudTd>
+        <MudTd DataLabel="Semi">@context.Prefinal</MudTd>
+        <MudTd DataLabel="Final">@context.Final</MudTd>
+        <MudTd DataLabel="Ave">@context.Average</MudTd>
+        <MudTd DataLabel="Remarks">@context.Retake</MudTd>
+        <MudTd DataLabel="Actions"></MudTd>
+
     </RowTemplate>
     <RowEditingTemplate>
-        <MudTd>@context.Id</MudTd>
-        <MudTd>@context.Offerno</MudTd>
-        <MudTd>@context.Courseno</MudTd>
+        <MudTd>@context.Submissionid</MudTd>
         <MudTd>@context.Studno</MudTd>
-        <MudTd>@context.Last</MudTd>
-        <MudTd>@context.First</MudTd>
+        <MudTd>@context.Lastname</MudTd>
+        <MudTd>@context.Firstname</MudTd>
         <MudTd>@context.Mi</MudTd>
         <MudTd DataLabel="PRELIM">
-            <MudTextField @bind-Value="@context.Term1" Required />
+            <MudTextField @bind-Value="@context.Prelim" Required />
         </MudTd>
         <MudTd>
-           <MudTextField @bind-Value="@context.Term2" Required />
+           <MudTextField @bind-Value="@context.Midterm" Required />
         </MudTd>
         <MudTd>
-           <MudTextField @bind-Value="@context.Term3" Required />
+           <MudTextField @bind-Value="@context.Prefinal" Required />
         </MudTd>
         <MudTd>
-           <MudTextField @bind-Value="@context.Term4" Required />
+           <MudTextField @bind-Value="@context.Final" Required />
         </MudTd>
         <MudTd>
            <MudTextField @bind-Value="@context.Average" Required />
+        </MudTd>
+        <MudTd>
+           <MudTextField @bind-Value="@context.Retake" Required />
         </MudTd>
     </RowEditingTemplate>
 
@@ -76,91 +75,90 @@
 </MudTable>
 
 <div class="d-flex flex-wrap mt-4">
-@*   <MudSwitch @bind-Checked="@hover" Color="Color.Primary">Hover</MudSwitch>
-    <MudSwitch @bind-Checked="@dense" Color="Color.Secondary">Dense</MudSwitch>
-    <MudSwitch @bind-Checked="@striped" Color="Color.Tertiary">Striped</MudSwitch>
-    <MudSwitch @bind-Checked="@bordered" Color="Color.Warning">Bordered</MudSwitch>*@
     <MudSpacer />
     <div style="min-width:200px;">
-        <MudText Inline="true" Class="align-self-center">Selected Item(s): @selectedItem1?.Last, @selectedItem1?.First</MudText>
+        <MudText Inline="true" Class="align-self-center">Selected Item(s): @selectedItem1?.Lastname, @selectedItem1?.Firstname</MudText>
     </div>
 </div>
 
 @code {
+    private List<string> editEvents = new();
     private bool dense = false;
     private bool hover = false;
     private bool ronly = false;
     private string searchString1 = "";
-    private SummaryGrades selectedItem1 = null!;
-    private HashSet<SummaryGrades> selectedItems = new HashSet<SummaryGrades>();
-    private List<string> _events = new();
-    private SummaryGrades? elementBeforeEdit;
+    private SubmittedGrade selectedItem1 = null!;
+    private HashSet<SubmittedGrade> selectedItems = new HashSet<SubmittedGrade>();
+    private SubmittedGrade? elementBeforeEdit;
     private bool canCancelEdit = false;
     private bool blockSwitch = false;
     private double ComputedFinalGrades;
 
-    private IEnumerable<SummaryGrades> Elements = new List<SummaryGrades>();
+    private IEnumerable<SubmittedGrade> Elements = new List<SubmittedGrade>();
 
     protected override async Task OnInitializedAsync()
     {
-        Elements = await httpClient.GetFromJsonAsync<List<SummaryGrades>>("api/grades/GetAllGrades");        
+        Elements = await httpClient.GetFromJsonAsync<List<SubmittedGrade>>("api/grades/GetAllGrades");        
         dense = true;
         hover = true;
 
     }
 
-    private bool FilterFunc1(SummaryGrades element) => FilterFunc(element, searchString1);
+    private bool FilterFunc1(SubmittedGrade element) => FilterFunc(element, searchString1);
 
-    private bool FilterFunc(SummaryGrades element, string searchString)
+    private bool FilterFunc(SubmittedGrade element, string searchString)
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
-        if (element.Last.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.Offerno.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        if (element.First.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.Studno.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        if ($"{element.Offerno} {element.Id} {element.Average}".Contains(searchString))
+        if ($"{element.Offerno} {element.Studno}".Contains(searchString))
             return true;
         return false;
     }
 
     private void ClearEventLog()
     {
-        _events.Clear();
+        editEvents.Clear();
     }
 
     private void AddEditionEvent(string message)
     {
-        _events.Add(message);
+        editEvents.Add(message);
         StateHasChanged();
     }
 
     private void BackupItem(object element)
     {
         elementBeforeEdit = new()
-        {
-            Term1 = ((SummaryGrades)element).Term1,
-            Term2 = ((SummaryGrades)element).Term2,
-            Term3 = ((SummaryGrades)element).Term3,
-            Term4 = ((SummaryGrades)element).Term4,
-            Average = ((SummaryGrades)element).Average
-        };
-        AddEditionEvent($"RowEditPreview event: made a backup of Element {((SummaryGrades)element).Studno}");
+            {
+                Prelim = ((SubmittedGrade)element).Prelim,
+                Midterm = ((SubmittedGrade)element).Midterm,
+                Prefinal = ((SubmittedGrade)element).Prefinal,
+                Final = ((SubmittedGrade)element).Final,
+                Average = ((SubmittedGrade)element).Average,
+                Retake = ((SubmittedGrade)element).Retake
+    };
+        AddEditionEvent($"RowEditPreview event: made a backup of Element {((SubmittedGrade)element).Studno}");
     }
 
     private void ItemHasBeenCommitted(object element)
     {
-        AddEditionEvent($"RowEditCommit event: Changes to Element {((SummaryGrades)element).Studno} committed");
+        AddEditionEvent($"RowEditCommit event: Changes to Element {((SubmittedGrade)element).Studno} committed");
     }
 
     private void ResetItemToOriginalValues(object element)
     {
-        ((SummaryGrades)element).Term1 = elementBeforeEdit?.Term1;
-        ((SummaryGrades)element).Term2 = elementBeforeEdit?.Term2;
-        ((SummaryGrades)element).Term3 = elementBeforeEdit?.Term3;
-        ((SummaryGrades)element).Term4 = elementBeforeEdit?.Term4;
-        ((SummaryGrades)element).Average = elementBeforeEdit?.Average;
-        AddEditionEvent($"RowEditCancel event: Editing of Element {((SummaryGrades)element).Studno} cancelled");
+        ((SubmittedGrade)element).Prelim = elementBeforeEdit?.Prelim;
+        ((SubmittedGrade)element).Midterm = elementBeforeEdit?.Midterm;
+        ((SubmittedGrade)element).Prefinal = elementBeforeEdit?.Prefinal;
+        ((SubmittedGrade)element).Final = elementBeforeEdit?.Final;
+        ((SubmittedGrade)element).Average = elementBeforeEdit?.Average;
+        ((SubmittedGrade)element).Retake = elementBeforeEdit?.Retake;
+
+        AddEditionEvent($"RowEditCancel event: Editing of Element {((SubmittedGrade)element).Studno} cancelled");
     }
 
 }

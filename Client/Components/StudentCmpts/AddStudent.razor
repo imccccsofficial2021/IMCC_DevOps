@@ -19,15 +19,68 @@
     <MudItem xs="12" sm="7">
             <MudCard>
             <MudCardContent>
-                    <MudTextField T="int" Label="Student Number" 
-                    @bind-Value="model.ID" For="@(() => model.ID)" />
+                    <MudTextField T="int" Label="IDNO." 
+                    @bind-Value="model.Studno" For="@(() => model.Studno)" />
 
-                    <MudTextField T="string" Label="Last Name" 
-                    @bind-Value="model.LASTNAME" For="@(() => model.LASTNAME)"/>
+                    <MudTextField T="string" Label="LASTNAME" 
+                    @bind-Value="model.Lastname" For="@(() => model.Lastname)"/>
 
-                    <MudTextField T="string" Label="First name" 
-                    @bind-Value="model.FIRSTNAME" For="@(() => model.FIRSTNAME)"/>
+                    <MudTextField T="string" Label="FIRSTNAME" 
+                    @bind-Value="model.Firstname" For="@(() => model.Firstname)" />
 
+                    <MudTextField T="string" Label="MI" 
+                    @bind-Value="model.Mi" For="@(() => model.Mi)"/>
+
+                    <MudTextField T="string" Label="SEX" 
+                    @bind-Value="model.Gender" For="@(() => model.Gender)" />
+
+                    <MudTextField T="int" Label="DEPT#" 
+                    @bind-Value="model.Deptno" For="@(() => model.Deptno)"/>
+
+                    <MudTextField T="string" Label="RELIGION" 
+                    @bind-Value="model.Religion" For="@(() => model.Religion)" />
+
+                    <MudTextField T="string" Label="SCHOLAR TYPE" 
+                    @bind-Value="model.Scholar" For="@(() => model.Scholar)"/>
+
+                    <MudTextField T="int" Label="SCHOL. CODE" 
+                    @bind-Value="model.Schcode" For="@(() => model.Schcode)" />
+
+                    <MudTextField T="int" Label="AWARD #" 
+                    @bind-Value="model.Awardno" For="@(() => model.Awardno)"/>
+
+                    <MudTextField T="int" Label="CLAIM #" 
+                    @bind-Value="model.Claimno" For="@(() => model.Claimno)"/>
+
+                    <MudTextField T="int" Label="CREDIT #" 
+                    @bind-Value="model.Creditno" For="@(() => model.Creditno)"/>
+
+                    <MudTextField T="int" Label="GRANT #" 
+                    @bind-Value="model.Grantno" For="@(() => model.Grantno)"/>
+
+                    <MudTextField T="string" Label="SC. GRANT #" 
+                    @bind-Value="model.Schgrant" For="@(() => model.Schgrant)"/>
+
+                    <MudTextField T="string" Label="SC APP." 
+                    @bind-Value="model.Schapp" For="@(() => model.Schapp)"/>
+
+                    <MudTextField T="string" Label="REGION" 
+                    @bind-Value="model.Region" For="@(() => model.Region)"/>
+
+                    <MudTextField T="string" Label="SC. ACCT." 
+                    @bind-Value="model.Schacct" For="@(() => model.Schacct)"/>
+
+                    <MudTextField T="string" Label="ADDRESS #" 
+                    @bind-Value="model.Schadd" For="@(() => model.Schadd)"/>
+
+                    <MudTextField T="string" Label="SC. VET" 
+                    @bind-Value="model.Schvet" For="@(() => model.Schvet)"/>
+
+                    <MudTextField T="string" Label="STATUS" 
+                    @bind-Value="model.Status" For="@(() => model.Status)"/>
+
+                    <MudTextField T="string" Label="PTAG" 
+                    @bind-Value="model.Ptag" For="@(() => model.Ptag)"/>
 
             </MudCardContent>
             <MudCardActions>
@@ -63,11 +116,11 @@
 
 @code {
     [Parameter]
-    public int? Id{ get; set; }
+    public int? Studid{ get; set; }
 
     string Save = string.Empty;
 
-    StudentList model = new StudentList {};
+    Student model = new Student {};
     bool success;
 
     //  public  class StudentList1
@@ -86,7 +139,7 @@
 
     async Task Save1()
     {
-         if(Id == null)
+         if(Studid == null)
         {
              await StudentService.CreateStudent(model);
            Snackbar.Add("Student Saved", Severity.Success);

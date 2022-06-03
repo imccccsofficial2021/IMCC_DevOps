@@ -12,17 +12,17 @@ namespace MudBlazorWASM.Client.Services
             _http = http;
             _navigationManager = navigationManager;
         }
-        public List<StudentList> Students { get; set; } = new List<StudentList>();
+        public List<Student> Students { get; set; } = new List<Student>();
 
 
-        public async Task CreateStudent(StudentList student)
+        public async Task CreateStudent(Student student)
         {
             var result = await _http.PostAsJsonAsync("api/student", student);
             await SetStudents(result);
         }
-        public async Task<StudentList> GetSingleStudent(int id)
+        public async Task<Student> GetSingleStudent(int id)
         {
-            var result = await _http.GetFromJsonAsync<StudentList>($"api/student/{id}");
+            var result = await _http.GetFromJsonAsync<Student>($"api/student/{id}");
             if (result != null)
                 return result;
             throw new Exception("Student Not Found");
@@ -35,24 +35,24 @@ namespace MudBlazorWASM.Client.Services
 
         private async Task SetStudents(HttpResponseMessage result)
         {
-            var response = await result.Content.ReadFromJsonAsync<List<StudentList>>();
+            var response = await result.Content.ReadFromJsonAsync<List<Student>>();
             Students = response;
             _navigationManager.NavigateTo("students");
         }
 
         public async Task GetStudent()
         {
-            var result = await _http.GetFromJsonAsync<List<StudentList>>("api/student/GetStudent");
+            var result = await _http.GetFromJsonAsync<List<Student>>("api/student/GetStudent");
             if (result != null)
                 Students = result;
         }
 
-        public async Task UpdateStudent(StudentList student)
+        public async Task UpdateStudent(Student student)
         {
-            var result = await _http.PutAsJsonAsync($"api/student/{student.STUDNO}", student);
+            var result = await _http.PutAsJsonAsync($"api/student/{student.Studno}", student);
             await SetStudents(result);
         }
 
-     
+
     }
 }

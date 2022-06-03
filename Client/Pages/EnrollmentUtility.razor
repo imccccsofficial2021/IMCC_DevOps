@@ -2,7 +2,6 @@
 @inject HttpClient httpClient;
 @inject NavigationManager NavigationManager
 @inject IStudentService StudentService
-@using MudBlazorWASM.Client.Components.EnrollmentCmpts
 @using MudBlazorWASM.Client.Components.StudentCmpts
 @using MudBlazorWASM.Client.Services
 @using MudBlazorWASM.Shared.Models
@@ -11,8 +10,6 @@
 
 <MudTabs Elevation="4" Rounded="true" Outlined="true" AlwaysShowScrollButtons="true" Color="@Color.Secondary" Class="mt-4">
     <MudTabPanel Icon="@Icons.Material.Filled.Summarize" Text="Subjects Summary">
-@*        <MudProgressCircular Color="Color.Secondary" Indeterminate="true" />*@
-       <EnrollmentsListView></EnrollmentsListView>
 
     </MudTabPanel>
     <MudTabPanel Icon="@Icons.Material.Filled.CloudDownload" Text="Download" />

@@ -1,4 +1,4 @@
-﻿@page "/subjects1"
+﻿@page "/subjects"
 @inject HttpClient httpClient;
 @inject ISnackbar Snackbar;
 @inject NavigationManager NavigationManager
@@ -8,29 +8,47 @@
 
 
 
-<MudTable Items="@Elements" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<SubjectList,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
+<MudTable Items="@Elements" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<Subject,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Periodic Elements</MudText>
         <MudSpacer />
         <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh>ID</MudTh>
-        <MudTh>COURSE NO</MudTh>
-        <MudTh>COURSE DESCRIPTION</MudTh>
-        <MudTh>CREDITS</MudTh>
-         <MudTh>Enrollment</MudTh>
-         <MudTh>Action</MudTh>
+        <MudTh>NO.</MudTh>
+        <MudTh>CODE</MudTh>
+        <MudTh>DESCRIPTION</MudTh>
+        <MudTh>LAB</MudTh>
+        <MudTh>LEC</MudTh>
+        <MudTh>UNITS</MudTh>
+        <MudTh>REQUISITE</MudTh>
+        <MudTh>CATEGORY</MudTh>
+        <MudTh>STATUS</MudTh>
+        <MudTh>DEPT#</MudTh>
+        <MudTh>SEMESTER</MudTh>
+        <MudTh>CODE</MudTh>
+        <MudTh>YRLEVEL</MudTh>
+        <MudTh>TYPE</MudTh>
+        <MudTh>ACTION</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="No.">@context.ID</MudTd>
-        <MudTd DataLabel="Course No.">@context.COURSENO</MudTd>
-        <MudTd DataLabel="Course Description">@context.COURSEDESC</MudTd>
-        <MudTd DataLabel="Credits">@context.CREDITS</MudTd>
-        <MudTd DataLabel="Enrollment">@context.Enrollments</MudTd>
+        <MudTd DataLabel="No.">@context.Id</MudTd>
+        <MudTd DataLabel="Code">@context.Coursecode</MudTd>
+        <MudTd DataLabel="Description">@context.Coursedesc</MudTd>
+        <MudTd DataLabel="Lab">@context.Lab</MudTd>
+        <MudTd DataLabel="Lec">@context.Lec</MudTd>
+        <MudTd DataLabel="Units">@context.Units</MudTd>
+        <MudTd DataLabel="PreReq">@context.Prereq</MudTd>
+        <MudTd DataLabel="Category">@context.Category</MudTd>
+        <MudTd DataLabel="Status">@context.Status</MudTd>
+        <MudTd DataLabel="Dept">@context.Deptno</MudTd>
+        <MudTd DataLabel="Semester">@context.Semester</MudTd>
+        <MudTd DataLabel="Code">@context.Semcode</MudTd>
+        <MudTd DataLabel="YrLevel">@context.Yrlevel</MudTd>
+        <MudTd DataLabel="Type">@context.Tyype</MudTd>
         <MudTd DataLabel="">
 
-            <MudFab @onclick="@(()=>Edit(@context.ID))" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" IconSize="Size.Small" />
+            <MudFab @onclick="@(()=>Edit(@context.Coursecode))" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" IconSize="Size.Small" />
            
     
         </MudTd>
@@ -47,7 +65,7 @@
     <MudSwitch @bind-Checked="@bordered" Color="Color.Warning">Bordered</MudSwitch>
     <MudSpacer />
     <div style="min-width:200px;">
-        <MudText Inline="true" Class="align-self-center">Selected1: @selectedItem1?.COURSEDESC</MudText>
+        <MudText Inline="true" Class="align-self-center">Selected1: @selectedItem1?.Coursedesc</MudText>
     </div>
 </div>
 
@@ -59,28 +77,28 @@
     private bool striped = false;
     private bool bordered = false;
     private string searchString1 = "";
-    private SubjectList selectedItem1 = null;
-    private HashSet<SubjectList> selectedItems = new HashSet<SubjectList>();
-    private IEnumerable<SubjectList> Elements = new List<SubjectList>();
+    private Subject selectedItem1 = null;
+    private HashSet<Subject> selectedItems = new HashSet<Subject>();
+    private IEnumerable<Subject> Elements = new List<Subject>();
 
     protected override async Task OnInitializedAsync()
     {
-        Elements = await httpClient.GetFromJsonAsync<List<SubjectList>>("api/subjects/getallsubjects");
+        Elements = await httpClient.GetFromJsonAsync<List<Subject>>("api/subjects/getallsubjects");
         dense = true;
         hover = true;
     }
 
-    private bool FilterFunc1(SubjectList element) => FilterFunc(element, searchString1);
+    private bool FilterFunc1(Subject element) => FilterFunc(element, searchString1);
 
-    private bool FilterFunc(SubjectList stud, string searchString)
+    private bool FilterFunc(Subject subj, string searchString)
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
-        if (stud.COURSEDESC.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (subj.Coursecode.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        if (stud.COURSEDESC.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (subj.Coursedesc.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        if ($"{stud.COURSEDESC} {stud.ID} {stud.COURSENO}".Contains(searchString))
+        if ($"{subj.Tyype} {subj.Coursecode} {subj.Coursedesc}".Contains(searchString))
             return true;
         return false;
     }
@@ -93,10 +111,10 @@
       //  httpClient.GetFromJsonAsync<List<SubjectList>>("api/subjects");
    // }
 
-    private void Edit(int id)
+    private void Edit(string code)
     {
-        selectedItem1 = selectedItems.FirstOrDefault(x => x.ID == id);
-        NavigationManager.NavigateTo($"/editsubject/{id}");
+        selectedItem1 = selectedItems.FirstOrDefault(x => x.Coursecode == code);
+        NavigationManager.NavigateTo($"/editsubject/{code}");
     }
 
  

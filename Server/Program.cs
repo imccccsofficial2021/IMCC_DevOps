@@ -1,5 +1,5 @@
-﻿global using MudBlazorWASM.Shared.Models;
-global using Microsoft.EntityFrameworkCore;
+﻿global using Microsoft.EntityFrameworkCore;
+global using MudBlazorWASM.Shared.Models;
 using MudBlazorWASM.Server.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IServiceCollection, ServiceCollection>();
-builder.Services.AddDbContext<SchoolDB123Context>(options =>
+builder.Services.AddDbContext<SchooldbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
@@ -18,7 +18,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
-  
+
 }
 else
 {

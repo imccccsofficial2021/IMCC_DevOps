@@ -8,32 +8,41 @@
 }
 else
 {
-     <PageTitle>Edit @stud.COURSEDESC</PageTitle>
-    <h3>Edit @stud.COURSEDESC</h3>
+     <PageTitle>Edit @addSub.Coursedesc</PageTitle>
+    <h3>Edit @addSub.Coursedesc</h3>
 }
 
-<EditForm Model="stud" OnSubmit="HandleSubmit">
+<EditForm Model="addSub" OnSubmit="HandleSubmit">
 
-    <div>
-        <label for="ID">ID</label>
-        <InputNumber name="ID" @bind-Value="stud.ID" class="form-control"></InputNumber>
-    </div>
-    <div>
-        <label for="COURSENO"> Course No#</label>
-        <InputNumber id="COURSENO" @bind-Value="stud.COURSENO" class="form-control"></InputNumber>
-    </div>
-    <div>
-        <label for="COURSEDESC"> Course Description</label>
-        <InputText id="COURSEDESC" @bind-Value="stud.COURSEDESC" class="form-control"></InputText>
-    </div>
-    <div>
-        <label for="CREDITS"> Credits</label>
-        <InputNumber name="CREDITS" @bind-Value="stud.CREDITS" class="form-control"></InputNumber>
-    </div>
-    <div>
-        <label for="Enrollments"> Enrollments</label>
-        <InputText name="Enrollments" @bind-Value="stud.Enrollments" class="form-control"></InputText>
-    </div>
+                    <MudTextField T="string" Label="Code" 
+                    @bind-Value="addSub.Coursecode" For="@(() => addSub.Coursecode)" />
+
+                    <MudTextField T="string" Label="Description" 
+                    @bind-Value="addSub.Coursedesc" For="@(() => addSub.Coursedesc)"/>
+
+                    <MudTextField T="int" Label="Lab Units" 
+                    @bind-Value="addSub.Lab" For="@(() => addSub.Lab)"/>
+
+                    <MudTextField T="int" Label="Lec Units" 
+                    @bind-Value="addSub.Lec" For="@(() => addSub.Lec)"/>
+
+                    <MudTextField T="int" Label="Total Units" 
+                    @bind-Value="addSub.Units" For="@(() => addSub.Units)"/>
+
+                    <MudTextField T="string" Label="Category" 
+                    @bind-Value="addSub.Category" For="@(() => addSub.Category)" />
+
+                    <MudTextField T="string" Label="Status" 
+                    @bind-Value="addSub.Status" For="@(() => addSub.Status)"/>
+
+                    <MudTextField T="int" Label="Semester" 
+                    @bind-Value="addSub.Semester" For="@(() => addSub.Semester)"/>
+
+                    <MudTextField T="string" Label="YearLevel" 
+                    @bind-Value="addSub.Yrlevel" For="@(() => addSub.Yrlevel)"/>
+
+                    <MudTextField T="string" Label="Type" 
+                    @bind-Value="addSub.Tyype" For="@(() => addSub.Tyype)"/>
     <br />
     <button type="Submit" class="btn btn-primary">@btnText</button>
     <button type="Submit" class="btn btn-danger" @onclick="DeleteSubject">Delete Subject</button>
@@ -45,7 +54,7 @@ else
 
     string btnText = string.Empty;
 
-    SubjectList stud = new SubjectList {};
+    Subject addSub = new Subject {};
 
     protected override async Task OnInitializedAsync()
     {
@@ -58,11 +67,11 @@ else
         if (Id == null)
         {
             //Add a New Student
-            stud.COURSENO = stud.COURSENO;
+            addSub.Coursecode = addSub.Coursecode;
         }
         else
         {
-            stud = await SubjectService.GetCourseNo((int) Id);
+            addSub = await SubjectService.GetCourseNo((int) Id);
         }
     }
 
@@ -70,16 +79,13 @@ else
     {
         if (Id == null)
         {
-            await SubjectService.CreateNewSubjects(stud);
+            await SubjectService.CreateNewSubjects(addSub);
         }
         else
         {
-            await SubjectService.UpdateAllSubjects(stud);
+            await SubjectService.UpdateAllSubjects(addSub);
         }
 
     }
-    async Task DeleteSubject()
-    {
-        await SubjectService.DeleteSubject(stud.COURSENO);
-    }
+    async Task DeleteSubject() => await SubjectService.DeleteSubject(addSub.Id);
 }

@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MudBlazorWASM.Server.Data;
-using MudBlazorWASM.Shared.Models;
 
 namespace MudBlazorWASM.Server.Controllers
 {
@@ -9,64 +7,92 @@ namespace MudBlazorWASM.Server.Controllers
     [ApiController]
     public class GradesController : ControllerBase
     {
-        private readonly SchoolDB123Context _webAppDb;
-        public GradesController(SchoolDB123Context webAppDb)
+        private readonly SchooldbContext _webAppDb;
+        public GradesController(SchooldbContext webAppDb)
         {
             _webAppDb = webAppDb;
         }
 
         [HttpGet]
         [Route("GetAllGrades")]
-        public async Task<ActionResult<List<SummaryGrades>>> GetAllGrades()
+        public async Task<ActionResult<List<SubmittedGrade>>> GetAllGrades()
         {
-            if (_webAppDb.SummaryGradesList == null)
+            if (_webAppDb.SubmittedGrades == null)
                 return NotFound();
 
-            var grades = await _webAppDb.SummaryGradesList.ToListAsync();
+            var grades = await _webAppDb.SubmittedGrades.ToListAsync();
+            return Ok(grades);
+        }
+
+        public async Task<ActionResult<List<SubmittedGrade>>> GetAllOfferedSubjects()
+        {
+            if (_webAppDb.OfferedSubjects == null)
+                return NotFound();
+
+            var grades = await _webAppDb.OfferedSubjects.ToListAsync();
             return Ok(grades);
         }
 
         [HttpGet]
         [Route("GetStudentID")]
-        public async Task<ActionResult<List<SummaryGrades>>> GetStudentID(int offerno)
+        public async Task<ActionResult<List<SubmittedGrade>>> GetStudentID(int offerno)
         {
-            if (_webAppDb.SummaryGradesList == null)
+            if (_webAppDb.SubmittedGrades == null)
                 return NotFound();
 
-            var grades = await _webAppDb.SummaryGradesList.FirstOrDefaultAsync(sh => sh.Offerno == offerno);
+            var grades = await _webAppDb.SubmittedGrades.FirstOrDefaultAsync(sh => sh.Offerno == offerno);
             return Ok(grades);
         }
 
         [HttpPost]
         [Route("AddNewGrade")]
-        public async Task<ActionResult<List<SummaryGrades>>> CreateNewGrade([FromBody] SummaryGrades summaryGrade)
+        public async Task<ActionResult<List<SubmittedGrade>>> CreateNewGrade([FromBody] SubmittedGrade submitGrades)
         {
-            _webAppDb.SummaryGradesList.Add(summaryGrade);
+            _webAppDb.SubmittedGrades.Add(submitGrades);
             await _webAppDb.SaveChangesAsync();
 
             return Ok(await GetDbListGrades());
         }
 
         [HttpPut("{offerno}")]
-        public async Task<ActionResult<List<SummaryGrades>>> UpdateAllGrades([FromBody] SummaryGrades summaryGrade, int offerno)
+        public async Task<ActionResult<List<SubmittedGrade>>> UpdateAllGrades([FromBody] SubmittedGrade submitGrades, int offerno)
         {
-            var grades = await _webAppDb.SummaryGradesList.FirstOrDefaultAsync(sh => sh.Offerno == offerno);
+            var grades = await _webAppDb.SubmittedGrades.FirstOrDefaultAsync(sh => sh.Offerno == offerno);
             if (grades == null)
                 return NotFound("Sorry, Offer Number Not Found!");
 
-            grades.Deptno = summaryGrade.Deptno;
-            grades.Offerno = summaryGrade.Offerno;
-            grades.Courseno = summaryGrade.Courseno;
-            grades.Studno = summaryGrade.Studno;
-            grades.Last = summaryGrade.Last;
-            grades.First = summaryGrade.First;
-            grades.Mi = summaryGrade.Mi;
-            grades.Term1 = summaryGrade.Term1;
-            grades.Term2 = summaryGrade.Term2;
-            grades.Term3 = summaryGrade.Term3;
-            grades.Term4 = summaryGrade.Term4;
-            grades.Average = summaryGrade.Average;
-            grades.Subjects = summaryGrade.Subjects;
+            grades.Offerno = submitGrades.Offerno;
+            grades.Studno = submitGrades.Studno;
+            grades.Lastname = submitGrades.Lastname;
+            grades.Firstname = submitGrades.Firstname;
+            grades.Mi = submitGrades.Mi;
+            grades.Yrlevel = submitGrades.Yrlevel;
+            grades.Coursecode = submitGrades.Coursecode;
+            grades.Coursedesc = submitGrades.Coursedesc;
+            grades.Units = submitGrades.Units;
+            grades.Deptno = submitGrades.Deptno;
+            grades.Prelim = submitGrades.Prelim;
+            grades.Midterm = submitGrades.Midterm;
+            grades.Prefinal = submitGrades.Prefinal;
+            grades.Final = submitGrades.Final;
+            grades.Average = submitGrades.Average;
+            grades.Retake = submitGrades.Retake;
+            grades.Teachid = submitGrades.Teachid;
+            //grades.Date = DateTime.Now("");
+            //grades.Time = DateTime.Now.ToLocalTime();
+            //grades.Deptno = summaryGrade.Deptno;
+            //grades.Offerno = summaryGrade.Offerno;
+            //grades.Courseno = summaryGrade.Courseno;
+            //grades.Studno = summaryGrade.Studno;
+            //grades.Last = summaryGrade.Last;
+            //grades.First = summaryGrade.First;
+            //grades.Mi = summaryGrade.Mi;
+            //grades.Term1 = summaryGrade.Term1;
+            //grades.Term2 = summaryGrade.Term2;
+            //grades.Term3 = summaryGrade.Term3;
+            //grades.Term4 = summaryGrade.Term4;
+            //grades.Average = summaryGrade.Average;
+            //grades.Subjects = summaryGrade.Subjects;
 
             await _webAppDb.SaveChangesAsync();
 
@@ -75,22 +101,22 @@ namespace MudBlazorWASM.Server.Controllers
         }
 
         [HttpDelete("{offerno}")]
-        public async Task<ActionResult<List<SummaryGrades>>> DeleteGradesByOfferNo([FromBody] int offerno)
+        public async Task<ActionResult<List<SubmittedGrade>>> DeleteGradesByOfferNo([FromBody] int offerno)
         {
-            var grades = await _webAppDb.SummaryGradesList
+            var grades = await _webAppDb.SubmittedGrades
                 .FirstOrDefaultAsync(sh => sh.Offerno == offerno);
             if (grades == null)
                 return NotFound("Sorry, Offer Number Not Found!");
 
-            _webAppDb.SummaryGradesList.Remove(grades);
+            _webAppDb.SubmittedGrades.Remove(grades);
             await _webAppDb.SaveChangesAsync();
 
             return Ok(await GetDbListGrades());
         }
 
-        private async Task<ActionResult<List<SummaryGrades>>> GetDbListGrades()
+        private async Task<ActionResult<List<SubmittedGrade>>> GetDbListGrades()
         {
-            return await _webAppDb.SummaryGradesList.ToListAsync();
+            return await _webAppDb.SubmittedGrades.ToListAsync();
         }
 
     }

@@ -8,10 +8,12 @@
 
 <MudDialog>
     <DialogContent>
-                <MudTextField Label="Prelim" @bind-Value="paramGrades.Pre" />
-                <MudTextField Label="Midterm" @bind-Value="paramGrades.Mid" />
-                <MudTextField Label="Semi" @bind-Value="paramGrades.Semi" />
+                <MudTextField Label="Prelim" @bind-Value="paramGrades.Prelim" />
+                <MudTextField Label="Midterm" @bind-Value="paramGrades.Midterm" />
+                <MudTextField Label="Semi" @bind-Value="paramGrades.Prefinal" />
                 <MudTextField Label="Final" @bind-Value="paramGrades.Final" />
+                <MudTextField Label="Final" @bind-Value="paramGrades.Average" />
+                <MudTextField Label="Final" @bind-Value="paramGrades.Retake" />
         </DialogContent>
     <DialogActions>
         <MudButton Color="Color.Primary"></MudButton>        
@@ -24,7 +26,7 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
     [Parameter] 
-    public GradeSummary paramGrades { get; set; } = new GradeSummary();
+    public SubmittedGrade paramGrades { get; set; } = new SubmittedGrade();
 
     public string? PrelimG { get; set; }
     public string? MidG { get; set; }
@@ -54,7 +56,7 @@
     {
 
 
-        MudDialog.Close(DialogResult.Ok<GradeSummary>(paramGrades));
+        MudDialog.Close(DialogResult.Ok<SubmittedGrade>(paramGrades));
 
     }
 }
